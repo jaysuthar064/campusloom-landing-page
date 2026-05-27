@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function PricingSection() {
   const plans = [
@@ -31,7 +32,7 @@ export default function PricingSection() {
                 <span style={{ fontSize: 48, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", letterSpacing: '-0.03em' }}>{plan.price}</span>
                 <span style={{ fontSize: 16, color: '#6B6B6B' }}>/Months</span>
               </div>
-              <a href="https://campus-loom.vercel.app/register" style={{
+              <Link to="/contact" style={{
                 display: 'block', textAlign: 'center', padding: '18px 0',
                 background: '#000', color: '#fff', borderRadius: 100,
                 fontWeight: 600, fontSize: 16, textDecoration: 'none',
@@ -39,7 +40,12 @@ export default function PricingSection() {
               }}
                 onMouseEnter={e => e.target.style.transform = 'scale(1.02)'}
                 onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-              >Buy Now</a>
+              >
+                <span className="btn-text-wrapper">
+                  <span className="btn-text-visible">Get Started</span>
+                  <span className="btn-text-hidden">Get Started</span>
+                </span>
+              </Link>
               <p style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A', marginBottom: 24 }}>Included features:</p>
               {plan.features.map((f, j) => (
                 <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 20, fontSize: 15, color: '#6B6B6B' }}>
@@ -57,11 +63,16 @@ export default function PricingSection() {
             <h3 style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 12 }}>Enterprise Plan</h3>
             <p style={{ fontSize: 16, color: '#999', maxWidth: 600, lineHeight: 1.6 }}>Large organizations looking for a scalable and highly customizable CRM solution.</p>
           </div>
-          <a href="https://campus-loom.vercel.app/register" style={{
+          <Link to="/contact" style={{
             display: 'inline-block', padding: '16px 40px',
             background: '#fff', color: '#000', borderRadius: 100,
             fontWeight: 600, fontSize: 16, textDecoration: 'none',
-          }}>Contact Us</a>
+          }}>
+            <span className="btn-text-wrapper">
+              <span className="btn-text-visible">Contact Us</span>
+              <span className="btn-text-hidden">Contact Us</span>
+            </span>
+          </Link>
         </div>
       </div>
     </section>

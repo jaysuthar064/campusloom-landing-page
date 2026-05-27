@@ -1,73 +1,163 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function HeroSection() {
-  const avatars = [
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
-  ];
+  const containerRef = useRef(null);
+  const leftImgRef = useRef(null);
+  const rightImgRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!containerRef.current) return;
+      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+      const x = (e.clientX - left - width / 2) / 30; // Soft parallax intensity
+      const y = (e.clientY - top - height / 2) / 30;
+
+      if (leftImgRef.current) leftImgRef.current.style.transform = `translate(${x}px, ${y}px)`;
+      if (rightImgRef.current) rightImgRef.current.style.transform = `translate(${x * -0.8}px, ${y * -0.8}px)`; // inverted slight parallax
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const renderAnimatedText = (text, delayStart, className) => {
+    let globalIndex = 0;
+    const words = text.split(' ');
+    return words.map((word, wIdx) => (
+      <span key={`word-${wIdx}`} style={{ display: 'inline-block', marginRight: wIdx !== words.length - 1 ? '0.25em' : '0' }}>
+        {word.split('').map((char, cIdx) => {
+          const delay = delayStart + globalIndex * 0.03;
+          globalIndex++;
+          return (
+            <span key={`char-${cIdx}`} className={className} style={{ animationDelay: `${delay}s` }}>
+              {char}
+            </span>
+          );
+        })}
+      </span>
+    ));
+  };
 
   return (
-    <section style={{ background: '#fff', paddingTop: 120, paddingBottom: 0 }}>
-      <div className="container-main" style={{ textAlign: 'center' }}>
-        {/* Avatar Badge */}
-        <div className="animate-fade-up delay-1" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 24 }}>
+    <section className="animate-fade-up" ref={containerRef} style={{ 
+      padding: '80px 0 100px', 
+      background: '#fff',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Grid Background & Glow Blobs */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, bottom: '20%',
+        backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px)',
+        backgroundSize: '80px 80px',
+        zIndex: 0,
+        pointerEvents: 'none'
+      }} />
+      
+      {/* Animated Blobs */}
+      <div className="blob-1" style={{ position: 'absolute', top: '-10%', left: '20%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
+      <div className="blob-2" style={{ position: 'absolute', top: '20%', right: '10%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
+
+      <div className="container-main" style={{ position: 'relative', zIndex: 10 }}>
+        
+        {/* Top Reviews/Avatars */}
+        <div className="animate-fade-up delay-1" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 32 }}>
           <div style={{ display: 'flex' }}>
-            {avatars.map((src, i) => (
-              <img key={i} src={src} alt="" style={{ width: 36, height: 36, borderRadius: '50%', border: '3px solid #fff', marginLeft: i > 0 ? -10 : 0, objectFit: 'cover' }} />
-            ))}
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', objectFit: 'cover' }}/>
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', marginLeft: -12, objectFit: 'cover' }}/>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', marginLeft: -12, objectFit: 'cover' }}/>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            {[1,2,3,4,5].map(i => <span key={i} style={{ color: '#F59E0B', fontSize: 16 }}>★</span>)}
+          <div>
+            <div style={{ display: 'flex', gap: 4, color: '#F59E0B', marginBottom: 4 }}>
+              {[1,2,3,4,5].map(star => <svg key={star} width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>)}
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#1A1A1A' }}>500+ Happy Schools.</div>
           </div>
-          <span style={{ fontSize: 14, fontWeight: 500, color: '#1A1A1A' }}>500+ Happy Schools.</span>
         </div>
 
-        {/* Headline */}
-        <h1 className="animate-fade-up delay-2" style={{ fontSize: 'clamp(40px, 5.5vw, 68px)', fontWeight: 800, lineHeight: 1.08, letterSpacing: '-0.03em', maxWidth: 750, margin: '0 auto 20px', color: '#1A1A1A' }}>
-          Simplify School Management With Smart Digital ERP Solutions.
+        {/* Cinematic Letter-by-Letter Headline */}
+        <h1 style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: 'clamp(32px, 4.5vw, 64px)', fontWeight: 600, lineHeight: 1.1, color: '#1A1A1A', marginBottom: 24, letterSpacing: '-0.02em', margin: '0 auto 24px', width: '100%' }}>
+          <span style={{ display: 'inline-block' }}>
+            {renderAnimatedText("Simplify School Management With", 0.1, "hero-letter")}
+          </span>
+          <br/>
+          <span style={{ display: 'inline-block' }}>
+            {renderAnimatedText("Smart Digital ERP Solutions.", 0.8, "hero-letter-gradient")}
+          </span>
         </h1>
-
-        {/* Subtext */}
-        <p className="animate-fade-up delay-3" style={{ color: '#6B6B6B', fontSize: 17, maxWidth: 550, margin: '0 auto 36px', lineHeight: 1.65 }}>
-          SmartShala ERP is a complete cloud-based education management platform designed to transform how modern schools operate.
+        
+        <p className="animate-fade-up delay-3" style={{ textAlign: 'center', fontSize: 'clamp(16px, 2vw, 20px)', color: '#404040', maxWidth: 800, margin: '0 auto 40px', lineHeight: 1.6, fontWeight: 500 }}>
+          Empower educators, engage parents, and streamline administration with an all-in-one platform built specifically for modern educational institutions.
         </p>
 
-        {/* CTA */}
-        <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-          <a href="https://campus-loom.vercel.app/register" className="btn-primary">Get Free Demo</a>
-          <a href="#features" className="btn-secondary">Explore Modules</a>
+        {/* Buttons */}
+        <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
+          <Link to="/contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
+            <span className="btn-text-wrapper">
+              <span className="btn-text-visible">Request A Demo</span>
+              <span className="btn-text-hidden">Request A Demo</span>
+            </span>
+          </Link>
+          <a href="/#features" className="btn-secondary" style={{ padding: '18px 36px', fontSize: 16, background: '#fff' }}>
+            <span className="btn-text-wrapper">
+              <span className="btn-text-visible">Explore Features</span>
+              <span className="btn-text-hidden">Explore Features</span>
+            </span>
+          </a>
+        </div>
+        
+        {/* Subtext */}
+        <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, color: '#1A1A1A', fontSize: 15, fontWeight: 600, marginBottom: 80 }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5l-10 14M22 12H2M19 17L5 5"/></svg>
+          No credit card required. Free 14 days trial
         </div>
 
-        {/* Micro */}
-        <p className="animate-fade-up delay-5" style={{ color: '#999', fontSize: 13, marginTop: 16 }}>
-          ✳ No credit card required. Free 14 days trial
-        </p>
-
-        {/* Hero Images */}
-        <div className="animate-fade-up delay-6" style={{ marginTop: 60, display: 'grid', gridTemplateColumns: '2.5fr 1fr', gap: 16, maxWidth: 1000, margin: '60px auto 0' }}>
-          {/* Main Large Image */}
-          <div style={{ position: 'relative', borderRadius: 20, overflow: 'hidden' }}>
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&h=550&fit=crop" alt="Team" style={{ width: '100%', height: 400, objectFit: 'cover', display: 'block', borderRadius: 20 }} />
-            {/* Floating Card */}
-            <div style={{ position: 'absolute', bottom: 24, left: 24, background: '#fff', borderRadius: 14, padding: '16px 20px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', minWidth: 180 }}>
-              <div style={{ fontSize: 12, color: '#999', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
-                <span>Total Students</span><span>•••</span>
+        {/* Hero Visual Area (2 Column Grid) */}
+        <div className="animate-fade-up delay-5" style={{ display: 'grid', gridTemplateColumns: '2fr 1.1fr', gap: 32, maxWidth: 1100, margin: '0 auto', perspective: '1000px' }}>
+          
+          {/* Left Large Image */}
+          <div ref={leftImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', transition: 'transform 0.1s linear' }}>
+            <div style={{ position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden' }}>
+              <img className="zoom-image" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&h=800&fit=crop" alt="Students in classroom" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            
+            {/* Left Floating Card - Glassmorphism */}
+            <div className="glass-card" style={{ position: 'absolute', bottom: 32, left: 32, padding: '24px 28px', borderRadius: 20, width: 240, zIndex: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 12, color: '#404040', fontWeight: 600 }}>
+                <span>Total Enrolled</span><span>•••</span>
               </div>
-              <div style={{ fontSize: 28, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'" }}>829</div>
-              <span style={{ fontSize: 11, background: '#DCFCE7', color: '#16A34A', padding: '2px 8px', borderRadius: 20, fontWeight: 600 }}>↑ 15%</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 32, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'" }}>1,829</span>
+                <span style={{ fontSize: 13, color: '#3B82F6', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 100, fontWeight: 700 }}>↑ 15%</span>
+              </div>
             </div>
           </div>
-          {/* Side Image + Stat Card */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ borderRadius: 20, overflow: 'hidden', flex: 1 }}>
-              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=250&fit=crop&crop=face" alt="Person" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+
+          {/* Right Smaller Image */}
+          <div ref={rightImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', animationDelay: '-3s', transition: 'transform 0.1s linear' }}>
+            <div style={{ position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden' }}>
+              <img className="zoom-image" src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=800&fit=crop" alt="Teacher smiling" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            <div style={{ background: '#fff', border: '1px solid #e8e8e8', borderRadius: 14, padding: '16px 20px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
-              <div style={{ fontSize: 12, color: '#999', marginBottom: 4 }}>Fee Balance</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'" }}>₹5,56,897</div>
+            
+            {/* Right Floating Card - Glassmorphism */}
+            <div className="glass-card" style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', padding: '24px', borderRadius: 20, width: '85%', zIndex: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 12, color: '#404040', fontWeight: 600 }}>
+                <span>Fee Balance</span><span>•••</span>
+              </div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", marginBottom: 16 }}>₹5,56,897</div>
+              
+              {/* Gradient Bar */}
+              <div style={{ height: 10, borderRadius: 5, background: 'linear-gradient(90deg, #3B82F6 0%, #60A5FA 40%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.05) 100%)', marginBottom: 12 }}></div>
+              
+              {/* Legends */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#404040', fontWeight: 600 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3B82F6' }}></span>Collected</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.1)' }}></span>Pending</span>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>

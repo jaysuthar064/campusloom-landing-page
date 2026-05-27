@@ -1,24 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FeatureGrid() {
   return (
     <section id="features" style={{ background: '#fff', padding: '100px 0' }}>
       <div className="container-main" style={{ display: 'flex', flexDirection: 'column', gap: 100 }}>
 
-        {/* Feature 1: Card left, text right */}
+        {/* Feature 1 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
           <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Ai Scoring</span>
-              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>•••</span>
+              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Academic Performance</span>
+              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </span>
             </div>
             
-            {/* Mock donut chart */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
               <div style={{ width: 180, height: 180, borderRadius: '50%', background: 'conic-gradient(#3B82F6 0% 72%, #F59E0B 72% 85%, #E8E8E8 85% 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                  <div style={{ width: 140, height: 140, borderRadius: '50%', background: '#F7F7F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{ fontSize: 36, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", lineHeight: 1 }}>72%</div>
-                    <div style={{ fontSize: 13, color: '#6B6B6B', marginTop: 4, fontWeight: 500 }}>Lead score</div>
+                    <div style={{ fontSize: 13, color: '#6B6B6B', marginTop: 4, fontWeight: 500 }}>Class Average</div>
                  </div>
               </div>
             </div>
@@ -26,39 +28,53 @@ export default function FeatureGrid() {
 
           <div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
-              Customer database for effortless data access.
+              Student database for effortless data access.
             </h2>
             <p style={{ color: '#6B6B6B', fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
-              brings all customer information into one centralized location, enabling teams to access complete, up-to-date profiles form effortlessly. Gone are in days of fragmented.
+              SmartShala brings all student information into one centralized location, enabling your staff to access complete, up-to-date profiles instantly. Gone are the days of fragmented physical registers and lost files.
             </p>
-            <a href="https://campus-loom.vercel.app/register" className="btn-primary">Get Orbit For Free</a>
+            <a href="/#features" className="btn-primary">
+              <span className="btn-text-wrapper">
+                <span className="btn-text-visible">Explore Features</span>
+                <span className="btn-text-hidden">Explore Features</span>
+              </span>
+            </a>
           </div>
         </div>
 
-        {/* Feature 2: Text left, card right */}
+        {/* Feature 2 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
           <div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
-              Monitor manage and maximize sales pipeline.
+              Monitor, manage, and maximize fee collection.
             </h2>
             <p style={{ color: '#6B6B6B', fontSize: 16, lineHeight: 1.7, marginBottom: 24 }}>
-              Maximize Your Sales Pipeline with a streamlined tracking system that empowers teams to stay ahead at every stage.
+              Streamline your financial operations with an automated fee tracking system that empowers administration to stay ahead at every stage of the academic year.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
-              {['With our advanced tracking tools.', 'Customizable pipeline management features.', 'Reduce lead leakage, and accelerate growth.'].map((t, i) => (
+              {['Automated reminders for pending dues.', 'Customizable receipt and invoice generation.', 'Reduce financial leakage with secure online gateways.'].map((t, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#1A1A1A', fontSize: 15, fontWeight: 500 }}>
-                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#3B82F6', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#fff', flexShrink: 0 }}>✓</span>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#3B82F6', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', flexShrink: 0 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </span>
                   {t}
                 </div>
               ))}
             </div>
-            <a href="https://campus-loom.vercel.app/register" className="btn-primary">Get Orbit For Free</a>
+            <Link to="/contact" className="btn-primary">
+              <span className="btn-text-wrapper">
+                <span className="btn-text-visible">Book A Demo</span>
+                <span className="btn-text-hidden">Book A Demo</span>
+              </span>
+            </Link>
           </div>
 
           <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Sales details</span>
-              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>•••</span>
+              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Fee Collection Insights</span>
+              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </span>
             </div>
             {/* Mock area chart */}
             <div style={{ marginTop: 20, position: 'relative', height: 180 }}>
@@ -81,7 +97,7 @@ export default function FeatureGrid() {
               </svg>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 13, color: '#1A1A1A', marginTop: 12, fontWeight: 500 }}>
-              <span>$3,659</span><span>$8,699</span><span>$6,558</span>
+              <span>₹3,65,900</span><span>₹8,69,900</span><span>₹6,55,800</span>
             </div>
           </div>
         </div>

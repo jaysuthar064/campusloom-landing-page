@@ -1,25 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      height: 68, background: '#fff',
-      borderBottom: '1px solid #f0f0f0',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '0 40px',
-    }}>
-      <a href="/" style={{ color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", fontWeight: 700, fontSize: 22, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ width: 28, height: 28, background: '#1A1A1A', borderRadius: 8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 14 }}>▶</span>
-        SmartShala
-      </a>
-      <div style={{ display: 'flex', gap: 32 }}>
-        {['Features', 'About', 'Pricing', 'Blog'].map(l => (
-          <a key={l} href={`#${l.toLowerCase()}`} style={{ color: '#6B6B6B', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.15s' }}
-            onMouseEnter={e => e.target.style.color = '#1A1A1A'} onMouseLeave={e => e.target.style.color = '#6B6B6B'}>{l}</a>
-        ))}
+    <nav style={{ padding: '20px 0', borderBottom: '1px solid #E8E8E8', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
+      <div className="container-main" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+          <span style={{ width: 32, height: 32, background: '#1A1A1A', borderRadius: 8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </span>
+          <span style={{ color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", fontWeight: 800, fontSize: 24, letterSpacing: '-0.02em' }}>SmartShala</span>
+        </Link>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+          <a href="/#features" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>Features</a>
+          <a href="/#about" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>About</a>
+          <a href="/#pricing" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>Pricing</a>
+          <a href="/#blog" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>Blog</a>
+        </div>
+        <Link to="/contact" className="btn-primary" style={{ padding: '12px 28px', fontSize: 15 }}>
+          <span className="btn-text-wrapper">
+            <span className="btn-text-visible">Contact</span>
+            <span className="btn-text-hidden">Contact</span>
+          </span>
+        </Link>
       </div>
-      <a href="https://campus-loom.vercel.app/login" className="btn-primary" style={{ padding: '10px 24px', fontSize: 13 }}>Contact</a>
     </nav>
   );
 }
