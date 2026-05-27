@@ -1,0 +1,91 @@
+import React from 'react';
+
+export default function FeatureGrid() {
+  return (
+    <section id="features" style={{ background: '#fff', padding: '100px 0' }}>
+      <div className="container-main" style={{ display: 'flex', flexDirection: 'column', gap: 100 }}>
+
+        {/* Feature 1: Card left, text right */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
+              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Ai Scoring</span>
+              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>•••</span>
+            </div>
+            
+            {/* Mock donut chart */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+              <div style={{ width: 180, height: 180, borderRadius: '50%', background: 'conic-gradient(#3B82F6 0% 72%, #F59E0B 72% 85%, #E8E8E8 85% 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                 <div style={{ width: 140, height: 140, borderRadius: '50%', background: '#F7F7F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ fontSize: 36, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", lineHeight: 1 }}>72%</div>
+                    <div style={{ fontSize: 13, color: '#6B6B6B', marginTop: 4, fontWeight: 500 }}>Lead score</div>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
+              Customer database for effortless data access.
+            </h2>
+            <p style={{ color: '#6B6B6B', fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
+              brings all customer information into one centralized location, enabling teams to access complete, up-to-date profiles form effortlessly. Gone are in days of fragmented.
+            </p>
+            <a href="https://campus-loom.vercel.app/register" className="btn-primary">Get Orbit For Free</a>
+          </div>
+        </div>
+
+        {/* Feature 2: Text left, card right */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
+              Monitor manage and maximize sales pipeline.
+            </h2>
+            <p style={{ color: '#6B6B6B', fontSize: 16, lineHeight: 1.7, marginBottom: 24 }}>
+              Maximize Your Sales Pipeline with a streamlined tracking system that empowers teams to stay ahead at every stage.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+              {['With our advanced tracking tools.', 'Customizable pipeline management features.', 'Reduce lead leakage, and accelerate growth.'].map((t, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#1A1A1A', fontSize: 15, fontWeight: 500 }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#3B82F6', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#fff', flexShrink: 0 }}>✓</span>
+                  {t}
+                </div>
+              ))}
+            </div>
+            <a href="https://campus-loom.vercel.app/register" className="btn-primary">Get Orbit For Free</a>
+          </div>
+
+          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>Sales details</span>
+              <span style={{ color: '#1A1A1A', fontWeight: 600 }}>•••</span>
+            </div>
+            {/* Mock area chart */}
+            <div style={{ marginTop: 20, position: 'relative', height: 180 }}>
+              <svg viewBox="0 0 300 120" style={{ width: '100%', height: '100%' }}>
+                <path d="M0,60 Q50,60 80,40 T150,20 T220,40 T300,60 L300,60 L0,60 Z" fill="#93C5FD"/>
+                <path d="M0,60 Q50,60 80,80 T150,100 T220,80 T300,60 L300,60 L0,60 Z" fill="#93C5FD"/>
+                
+                <path d="M30,60 Q60,60 90,45 T150,30 T210,45 T270,60 L270,60 L30,60 Z" fill="#60A5FA"/>
+                <path d="M30,60 Q60,60 90,75 T150,90 T210,75 T270,60 L270,60 L30,60 Z" fill="#60A5FA"/>
+
+                <path d="M60,60 Q80,60 100,50 T150,40 T200,50 T240,60 L240,60 L60,60 Z" fill="#2563EB"/>
+                <path d="M60,60 Q80,60 100,70 T150,80 T200,70 T240,60 L240,60 L60,60 Z" fill="#2563EB"/>
+
+                <line x1="80" y1="10" x2="80" y2="110" stroke="#1A1A1A" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="150" y1="10" x2="150" y2="110" stroke="#1A1A1A" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="220" y1="10" x2="220" y2="110" stroke="#1A1A1A" strokeWidth="1" strokeDasharray="4 4" />
+
+                <rect x="135" y="0" rx="8" ry="8" width="30" height="16" fill="#F97316"/>
+                <text x="150" y="11" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="600">32%</text>
+              </svg>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 13, color: '#1A1A1A', marginTop: 12, fontWeight: 500 }}>
+              <span>$3,659</span><span>$8,699</span><span>$6,558</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

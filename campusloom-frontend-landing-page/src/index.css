@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-white: #FFFFFF;
+  --bg-light: #F7F7F7;
+  --bg-card: #F2F4F7;
+  --text-dark: #1A1A1A;
+  --text-body: #6B6B6B;
+  --text-muted: #999999;
+  --border-light: #E8E8E8;
+  --radius-xl: 20px;
+  --radius-pill: 100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-dark);
+  background: var(--bg-white);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #1A1A1A; color: #fff;
+  border: none; border-radius: 100px;
+  padding: 14px 30px; font-family: 'Inter'; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+}
+.btn-primary:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: #1A1A1A;
+  border: 1px solid #E8E8E8; border-radius: 100px;
+  padding: 14px 30px; font-family: 'Inter'; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  text-decoration: none;
+}
+.btn-secondary:hover { border-color: #999; background: #f9f9f9; }
+
+.container-main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.marquee-wrapper {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+.marquee-track {
+  display: flex; gap: 64px; width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-up { animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.35s; }
+.delay-4 { animation-delay: 0.5s; }
+.delay-5 { animation-delay: 0.6s; }
+.delay-6 { animation-delay: 0.7s; }

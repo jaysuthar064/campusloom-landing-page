@@ -1,0 +1,8 @@
+Campus Loom local WordPress
+
+Site: http://localhost:8883
+Admin: http://localhost:8883/wp-admin/
+Auto Admin: http://localhost:8883/?campus_local_login=1&token=48a87322773045149d79b02153fe280f2e46ea82a07d432184c431fac946daa9
+Username: admin
+Password: ()DKJkMNVL$Bmx57urSCPqnt
+Database: campus_loom
