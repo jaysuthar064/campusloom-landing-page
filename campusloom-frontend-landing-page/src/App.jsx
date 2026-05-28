@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
 import Contact from './pages/Contact'
+import LegalPage from './pages/LegalPage'
 import { ContentProvider, useContent } from './context/ContentContext';
 
 import { motion } from 'framer-motion';
@@ -50,6 +51,8 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<LegalPage type="privacy" />} />
+          <Route path="/terms-of-service" element={<LegalPage type="terms" />} />
         </Routes>
       </main>
       <Footer />

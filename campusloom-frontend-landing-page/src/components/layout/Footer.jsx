@@ -69,8 +69,8 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left" style={{ borderTop: '1px solid #E8E8E8', paddingTop: 32 }}>
           <p style={{ color: '#6B6B6B', fontSize: 14 }}>© 2026 SmartShala, Inc. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 24 }}>
-            <a href="#" style={{ color: '#6B6B6B', fontSize: 14, textDecoration: 'none', fontWeight: 500 }}>Privacy Policy</a>
-            <a href="#" style={{ color: '#6B6B6B', fontSize: 14, textDecoration: 'none', fontWeight: 500 }}>Terms of Service</a>
+            <Link to="/privacy-policy" style={{ color: '#6B6B6B', fontSize: 14, textDecoration: 'none', fontWeight: 500 }}>Privacy Policy</Link>
+            <Link to="/terms-of-service" style={{ color: '#6B6B6B', fontSize: 14, textDecoration: 'none', fontWeight: 500 }}>Terms of Service</Link>
           </div>
         </div>
       </div>
