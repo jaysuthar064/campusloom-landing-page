@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer style={{ background: '#fff', padding: '60px 0 40px', borderTop: '1px solid #E8E8E8' }}>
       <div className="container-main">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr 1.5fr', gap: 40, marginBottom: 64 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr] gap-10 mb-16">
           {/* Logo */}
           <div>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, textDecoration: 'none' }}>
@@ -65,8 +65,8 @@ export default function Footer() {
           </div>
         </div>
         
-        {/* Bottom bar */}
-        <div style={{ borderTop: '1px solid #E8E8E8', paddingTop: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left" style={{ borderTop: '1px solid #E8E8E8', paddingTop: 32 }}>
           <p style={{ color: '#6B6B6B', fontSize: 14 }}>© 2026 SmartShala, Inc. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#" style={{ color: '#6B6B6B', fontSize: 14, textDecoration: 'none', fontWeight: 500 }}>Privacy Policy</a>

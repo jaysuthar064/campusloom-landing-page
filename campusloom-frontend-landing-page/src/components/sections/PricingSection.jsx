@@ -12,25 +12,13 @@ export default function PricingSection() {
   return (
     <section id="pricing" style={{ background: '#fff', padding: '100px 0' }}>
       <div className="container-main">
-        <div className="hide-scrollbar" style={{ 
-          display: 'flex', 
-          overflowX: 'auto', 
-          gap: 24, 
-          paddingBottom: 24, 
-          marginBottom: 24,
-          scrollSnapType: 'x mandatory',
-          scrollBehavior: 'smooth',
-          WebkitOverflowScrolling: 'touch'
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {regularPlans.map((plan, i) => (
             <div key={i} style={{ 
               background: '#F9FAFB', 
               borderRadius: 24, 
               padding: 48,
-              minWidth: 350,
-              maxWidth: 400,
-              flexShrink: 0,
-              scrollSnapAlign: 'start'
+              height: '100%'
             }}>
               <h3 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A', marginBottom: 12 }}>{plan.name}</h3>
               <p style={{ fontSize: 16, color: '#6B6B6B', marginBottom: 32, lineHeight: 1.6 }}>{plan.desc}</p>
@@ -64,7 +52,7 @@ export default function PricingSection() {
         </div>
 
         {/* Enterprise / Custom Plan CTA */}
-        <div style={{ background: '#000', borderRadius: 24, padding: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="bg-black rounded-3xl p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
             <h3 style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 12 }}>{content?.extraData?.pr_cta_t || 'Custom Solution'}</h3>
             <p style={{ fontSize: 16, color: '#999', maxWidth: 600, lineHeight: 1.6 }}>{content?.extraData?.pr_cta_s || 'Looking for a highly customizable CRM solution for a large organization? Contact us for a tailored package.'}</p>

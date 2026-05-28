@@ -11,7 +11,7 @@ export default function Navbar() {
           </span>
           <span style={{ color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", fontWeight: 800, fontSize: 24, letterSpacing: '-0.02em' }}>SmartShala</span>
         </Link>
-        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+        <div className="hidden md:flex" style={{ gap: 32, alignItems: 'center' }}>
           <a href="/#features" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>Features</a>
           <a href="/#about" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>About</a>
           <a href="/#pricing" style={{ color: '#6B6B6B', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>Pricing</a>

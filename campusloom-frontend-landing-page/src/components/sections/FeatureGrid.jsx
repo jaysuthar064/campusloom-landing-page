@@ -13,7 +13,7 @@ export default function FeatureGrid() {
       <div className="container-main" style={{ display: 'flex', flexDirection: 'column', gap: 100 }}>
 
         {/* Feature 1 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
               <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>{content?.extraData?.feat1_l1 || 'Academic Performance'}</span>
@@ -49,7 +49,7 @@ export default function FeatureGrid() {
         </div>
 
         {/* Feature 2 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
               {feature2.title}

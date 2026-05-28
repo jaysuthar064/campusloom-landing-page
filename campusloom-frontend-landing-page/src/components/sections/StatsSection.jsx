@@ -18,7 +18,7 @@ export default function StatsSection() {
         </p>
 
         {/* Row 1: Big photo + Orange stat card */}
-        <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: 20, marginBottom: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-5 mb-5">
           <div style={{ borderRadius: 24, overflow: 'hidden', height: 400 }}>
             {/* Real classroom/students image */}
             <img src={content?.extraImages?.stats1 || "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=900&h=400&fit=crop"} alt="Classroom" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}/>
@@ -31,7 +31,7 @@ export default function StatsSection() {
         </div>
 
         {/* Row 2: Blue stat + Photo + Black stat */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div style={{ background: '#3B82F6', borderRadius: 24, padding: 40, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%)', transform: 'scale(1.5)' }}></div>
             <div style={{ position: 'relative', zIndex: 1 }}>

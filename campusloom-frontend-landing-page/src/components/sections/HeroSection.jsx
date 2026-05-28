@@ -44,7 +44,7 @@ export default function HeroSection() {
 
   return (
     <section className="animate-fade-up" ref={containerRef} style={{ 
-      padding: '80px 0 100px', 
+      padding: '20px 0 100px', 
       background: '#fff',
       position: 'relative',
       overflow: 'hidden'
@@ -80,7 +80,7 @@ export default function HeroSection() {
         </p>
 
         {/* Buttons */}
-        <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
+        <div className="animate-fade-up delay-4 flex flex-col sm:flex-row justify-center gap-4 mb-6" style={{ alignItems: 'center' }}>
           <Link to="/contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
             <span className="btn-text-wrapper">
               <span className="btn-text-visible">{content.hero.btn1 || "Request A Demo"}</span>
@@ -102,7 +102,7 @@ export default function HeroSection() {
         </div>
 
         {/* Hero Visual Area (2 Column Grid) */}
-        <div className="animate-fade-up delay-5" style={{ display: 'grid', gridTemplateColumns: '2fr 1.1fr', gap: 32, maxWidth: 1100, margin: '0 auto', perspective: '1000px' }}>
+        <div className="animate-fade-up delay-5 grid grid-cols-1 md:grid-cols-[2fr_1.1fr] gap-8 max-w-[1100px] mx-auto" style={{ perspective: '1000px' }}>
           
           {/* Left Large Image */}
           <div ref={leftImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', transition: 'transform 0.1s linear' }}>

@@ -10,7 +10,7 @@ export default function TestimonialFAQ() {
     <section style={{ background: '#fff', padding: '100px 0' }}>
       <div className="container-main">
         {/* Two-column FAQ */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 64, alignItems: 'start' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-16 items-start">
           {/* Left: Title */}
           <div>
             <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: content?.extraData?.faq_t || 'Got questions?<br/>We\'ve got answers.' }}></h2>

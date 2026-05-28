@@ -32,7 +32,7 @@ export default function SuccessFeatures() {
           Easily visualize your institution's growth and daily operations through intuitive dashboards.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 64, alignItems: 'center' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-12 md:gap-16 items-center">
           {/* Left: Feature list */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
             {features.map((f, i) => (
