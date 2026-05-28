@@ -246,13 +246,16 @@ a:hover .btn-text-hidden, button:hover .btn-text-hidden,
   display: inline-block;
   opacity: 0;
   white-space: pre;
-  background: linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 30%, #3B82F6 50%, #1A1A1A 70%, #1A1A1A 100%);
-  background-size: 300% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: 
-    revealLetter 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    gradientSweep 8s linear infinite;
+  color: #3B82F6;
+  animation: revealLetter 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 

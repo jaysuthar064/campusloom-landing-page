@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useContent } from '../../context/ContentContext';
 
 export default function CtaBanner() {
+  const { content } = useContent();
   return (
     <section style={{ background: '#fff', padding: '40px 0 100px' }}>
       <div className="container-main">
@@ -58,10 +60,10 @@ export default function CtaBanner() {
               <div style={{ width: 24, height: 24, background: '#A3A3A3', borderRadius: 6 }}></div>
             </div>
 
-            <h2 style={{ color: '#fff', fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 32 }}>
-              The modern solutions<br/>to run your institution.
+            <h2 style={{ color: '#fff', fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 12 }}>
+              {content?.extraData?.cta_t || 'The modern solutions to run your institution.'}
             </h2>
-            
+            {content?.extraData?.cta_s && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 18, marginBottom: 32 }}>{content.extraData.cta_s}</p>}
             <Link to="/contact" style={{
               display: 'inline-block', padding: '16px 40px',
               background: '#000', color: '#fff', borderRadius: 100,
@@ -70,16 +72,12 @@ export default function CtaBanner() {
             }}
               onMouseEnter={e => e.target.style.transform = 'scale(1.04)'}
               onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-            >Request A Demo</Link>
+            >{content?.extraData?.cta_btn1 || 'Request A Demo'}</Link>
             
             <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, fontWeight: 500 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                No need for a credit card.
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                Cancel at anytime.
+                {content?.extraData?.cta_ft || 'No credit card required. Cancel at anytime.'}
               </span>
             </div>
           </div>

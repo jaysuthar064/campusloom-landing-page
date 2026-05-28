@@ -1,31 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useContent } from '../../context/ContentContext';
 
 export default function PricingSection() {
-  const plans = [
-    {
-      name: 'Starter Plan',
-      desc: 'Ideal for small businesses & startups getting started with CRM.',
-      price: '$29',
-      features: ['Contact and lead management.', 'Task and appointment scheduling.', 'Basic reporting and analytics.', 'Integration with email and calendar.'],
-      dark: false,
-    },
-    {
-      name: 'Business Plan',
-      desc: 'Growing teams needing advanced CRM capabilities and automation.',
-      price: '$59',
-      features: ['Customizable pipelines and workflows.', 'Team collaboration tools.', 'Advanced analytics and reporting.', 'API access and third-party integrations.'],
-      dark: false,
-    },
-  ];
+  const { content } = useContent();
+  const allPlans = content?.pricingPlans || [];
+  
+  // Render all plans dynamically
+  const regularPlans = allPlans;
 
   return (
     <section id="pricing" style={{ background: '#fff', padding: '100px 0' }}>
       <div className="container-main">
-        {/* Two pricing cards side by side */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24 }}>
-          {plans.map((plan, i) => (
-            <div key={i} style={{ background: '#F9FAFB', borderRadius: 24, padding: 48 }}>
+        <div className="hide-scrollbar" style={{ 
+          display: 'flex', 
+          overflowX: 'auto', 
+          gap: 24, 
+          paddingBottom: 24, 
+          marginBottom: 24,
+          scrollSnapType: 'x mandatory',
+          scrollBehavior: 'smooth',
+          WebkitOverflowScrolling: 'touch'
+        }}>
+          {regularPlans.map((plan, i) => (
+            <div key={i} style={{ 
+              background: '#F9FAFB', 
+              borderRadius: 24, 
+              padding: 48,
+              minWidth: 350,
+              maxWidth: 400,
+              flexShrink: 0,
+              scrollSnapAlign: 'start'
+            }}>
               <h3 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A', marginBottom: 12 }}>{plan.name}</h3>
               <p style={{ fontSize: 16, color: '#6B6B6B', marginBottom: 32, lineHeight: 1.6 }}>{plan.desc}</p>
               <div style={{ marginBottom: 32, display: 'flex', alignItems: 'baseline' }}>
@@ -42,8 +48,8 @@ export default function PricingSection() {
                 onMouseLeave={e => e.target.style.transform = 'scale(1)'}
               >
                 <span className="btn-text-wrapper">
-                  <span className="btn-text-visible">Get Started</span>
-                  <span className="btn-text-hidden">Get Started</span>
+                  <span className="btn-text-visible">{content?.extraData?.pr_btn1 || 'Get Started'}</span>
+                  <span className="btn-text-hidden">{content?.extraData?.pr_btn1 || 'Get Started'}</span>
                 </span>
               </Link>
               <p style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A', marginBottom: 24 }}>Included features:</p>
@@ -57,11 +63,11 @@ export default function PricingSection() {
           ))}
         </div>
 
-        {/* Enterprise Plan */}
+        {/* Enterprise / Custom Plan CTA */}
         <div style={{ background: '#000', borderRadius: 24, padding: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h3 style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 12 }}>Enterprise Plan</h3>
-            <p style={{ fontSize: 16, color: '#999', maxWidth: 600, lineHeight: 1.6 }}>Large organizations looking for a scalable and highly customizable CRM solution.</p>
+            <h3 style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 12 }}>{content?.extraData?.pr_cta_t || 'Custom Solution'}</h3>
+            <p style={{ fontSize: 16, color: '#999', maxWidth: 600, lineHeight: 1.6 }}>{content?.extraData?.pr_cta_s || 'Looking for a highly customizable CRM solution for a large organization? Contact us for a tailored package.'}</p>
           </div>
           <Link to="/contact" style={{
             display: 'inline-block', padding: '16px 40px',
@@ -69,8 +75,8 @@ export default function PricingSection() {
             fontWeight: 600, fontSize: 16, textDecoration: 'none',
           }}>
             <span className="btn-text-wrapper">
-              <span className="btn-text-visible">Contact Us</span>
-              <span className="btn-text-hidden">Contact Us</span>
+              <span className="btn-text-visible">{content?.extraData?.pr_btn2 || 'Contact Us'}</span>
+              <span className="btn-text-hidden">{content?.extraData?.pr_btn2 || 'Contact Us'}</span>
             </span>
           </Link>
         </div>

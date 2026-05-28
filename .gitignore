@@ -16,15 +16,15 @@ wp-content/cache/
 *.zip
 *.log
 
-# If you only want to track custom plugins/themes and ignore WordPress core, 
-# uncomment the following lines:
-# wp-admin/
-# wp-includes/
-# *.php
-# !wp-config.php
-# wp-content/plugins/*
-# !wp-content/plugins/smartshala-headless/
-# wp-content/themes/*
+# WordPress Core and default plugins
+wp-admin/
+wp-includes/
+*.php
+!wp-config.php
+wp-content/plugins/*
+!wp-content/plugins/campusloom-headless/
+wp-content/themes/*
+wp-content/updraft/
 
 # =========================
 # React Frontend

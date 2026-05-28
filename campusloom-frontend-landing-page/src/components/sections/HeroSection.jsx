@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useContent } from '../../context/ContentContext';
 
 export default function HeroSection() {
   const containerRef = useRef(null);
   const leftImgRef = useRef(null);
   const rightImgRef = useRef(null);
+  const { content } = useContent();
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -22,6 +24,7 @@ export default function HeroSection() {
   }, []);
 
   const renderAnimatedText = (text, delayStart, className) => {
+    if (!text) return null;
     let globalIndex = 0;
     const words = text.split(' ');
     return words.map((word, wIdx) => (
@@ -61,48 +64,33 @@ export default function HeroSection() {
 
       <div className="container-main" style={{ position: 'relative', zIndex: 10 }}>
         
-        {/* Top Reviews/Avatars */}
-        <div className="animate-fade-up delay-1" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 32 }}>
-          <div style={{ display: 'flex' }}>
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', objectFit: 'cover' }}/>
-            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', marginLeft: -12, objectFit: 'cover' }}/>
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=faces" alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #fff', marginLeft: -12, objectFit: 'cover' }}/>
-          </div>
-          <div>
-            <div style={{ display: 'flex', gap: 4, color: '#F59E0B', marginBottom: 4 }}>
-              {[1,2,3,4,5].map(star => <svg key={star} width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>)}
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#1A1A1A' }}>500+ Happy Schools.</div>
-          </div>
-        </div>
-
         {/* Cinematic Letter-by-Letter Headline */}
         <h1 style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: 'clamp(32px, 4.5vw, 64px)', fontWeight: 600, lineHeight: 1.1, color: '#1A1A1A', marginBottom: 24, letterSpacing: '-0.02em', margin: '0 auto 24px', width: '100%' }}>
           <span style={{ display: 'inline-block' }}>
-            {renderAnimatedText("Simplify School Management With", 0.1, "hero-letter")}
+            {renderAnimatedText(content.hero.title1, 0.1, "hero-letter")}
           </span>
           <br/>
           <span style={{ display: 'inline-block' }}>
-            {renderAnimatedText("Smart Digital ERP Solutions.", 0.8, "hero-letter-gradient")}
+            {renderAnimatedText(content.hero.title2, 0.8, "hero-letter-gradient")}
           </span>
         </h1>
         
         <p className="animate-fade-up delay-3" style={{ textAlign: 'center', fontSize: 'clamp(16px, 2vw, 20px)', color: '#404040', maxWidth: 800, margin: '0 auto 40px', lineHeight: 1.6, fontWeight: 500 }}>
-          Empower educators, engage parents, and streamline administration with an all-in-one platform built specifically for modern educational institutions.
+          {content.hero.subtitle}
         </p>
 
         {/* Buttons */}
         <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
           <Link to="/contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
             <span className="btn-text-wrapper">
-              <span className="btn-text-visible">Request A Demo</span>
-              <span className="btn-text-hidden">Request A Demo</span>
+              <span className="btn-text-visible">{content.hero.btn1 || "Request A Demo"}</span>
+              <span className="btn-text-hidden">{content.hero.btn1 || "Request A Demo"}</span>
             </span>
           </Link>
           <a href="/#features" className="btn-secondary" style={{ padding: '18px 36px', fontSize: 16, background: '#fff' }}>
             <span className="btn-text-wrapper">
-              <span className="btn-text-visible">Explore Features</span>
-              <span className="btn-text-hidden">Explore Features</span>
+              <span className="btn-text-visible">{content.hero.btn2 || "Explore Features"}</span>
+              <span className="btn-text-hidden">{content.hero.btn2 || "Explore Features"}</span>
             </span>
           </a>
         </div>
@@ -110,7 +98,7 @@ export default function HeroSection() {
         {/* Subtext */}
         <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, color: '#1A1A1A', fontSize: 15, fontWeight: 600, marginBottom: 80 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5l-10 14M22 12H2M19 17L5 5"/></svg>
-          No credit card required. Free 14 days trial
+          {content.hero.subtext || "No credit card required. Free 14 days trial"}
         </div>
 
         {/* Hero Visual Area (2 Column Grid) */}
@@ -119,17 +107,17 @@ export default function HeroSection() {
           {/* Left Large Image */}
           <div ref={leftImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', transition: 'transform 0.1s linear' }}>
             <div style={{ position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden' }}>
-              <img className="zoom-image" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&h=800&fit=crop" alt="Students in classroom" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img className="zoom-image" src={content.hero.imgLeft || "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&h=800&fit=crop"} alt="Students in classroom" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             
             {/* Left Floating Card - Glassmorphism */}
             <div className="glass-card" style={{ position: 'absolute', bottom: 32, left: 32, padding: '24px 28px', borderRadius: 20, width: 240, zIndex: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 12, color: '#404040', fontWeight: 600 }}>
-                <span>Total Enrolled</span><span>•••</span>
+                <span>{content?.hero?.leftCard?.title || 'Total Enrolled'}</span><span>•••</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 32, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'" }}>1,829</span>
-                <span style={{ fontSize: 13, color: '#3B82F6', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 100, fontWeight: 700 }}>↑ 15%</span>
+                <span style={{ fontSize: 32, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'" }}>{content?.hero?.leftCard?.num || '1,829'}</span>
+                <span style={{ fontSize: 13, color: '#3B82F6', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 100, fontWeight: 700 }}>{content?.hero?.leftCard?.badge || '↑ 15%'}</span>
               </div>
             </div>
           </div>
@@ -137,23 +125,23 @@ export default function HeroSection() {
           {/* Right Smaller Image */}
           <div ref={rightImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', animationDelay: '-3s', transition: 'transform 0.1s linear' }}>
             <div style={{ position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden' }}>
-              <img className="zoom-image" src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=800&fit=crop" alt="Teacher smiling" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img className="zoom-image" src={content.hero.imgRight || "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=800&fit=crop"} alt="Teacher smiling" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             
             {/* Right Floating Card - Glassmorphism */}
             <div className="glass-card" style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', padding: '24px', borderRadius: 20, width: '85%', zIndex: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 12, color: '#404040', fontWeight: 600 }}>
-                <span>Fee Balance</span><span>•••</span>
+                <span>{content?.hero?.rightCard?.title || 'Fee Balance'}</span><span>•••</span>
               </div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", marginBottom: 16 }}>₹5,56,897</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", marginBottom: 16 }}>{content?.hero?.rightCard?.num || '₹5,56,897'}</div>
               
               {/* Gradient Bar */}
               <div style={{ height: 10, borderRadius: 5, background: 'linear-gradient(90deg, #3B82F6 0%, #60A5FA 40%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.05) 100%)', marginBottom: 12 }}></div>
               
               {/* Legends */}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#404040', fontWeight: 600 }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3B82F6' }}></span>Collected</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.1)' }}></span>Pending</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3B82F6' }}></span>{content?.hero?.rightCard?.legend1 || 'Collected'}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.1)' }}></span>{content?.hero?.rightCard?.legend2 || 'Pending'}</span>
               </div>
             </div>
           </div>

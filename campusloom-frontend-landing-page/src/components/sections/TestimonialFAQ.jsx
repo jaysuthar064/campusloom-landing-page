@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
+import { useContent } from '../../context/ContentContext';
 
 export default function TestimonialFAQ() {
   const [open, setOpen] = useState(0);
-  const faqs = [
-    { q: 'How does Orbit help in managing customer data?', a: 'Orbit provides detailed analytics and insights, empowering businesses to make data-driven decisions about marketing strategies, product development, and customer engagement and more.' },
-    { q: 'How Does Orbit provide automated workflow features?', a: 'Yes, it automates repetitive administrative tasks such as attendance, fee reminders, report generation, and communication workflows.' },
-    { q: 'How does Orbit personalized alerts and notifications work?', a: 'The system sends automated alerts for fee dues, attendance drops, exam schedules, and parent communication based on configurable rules.' },
-    { q: 'Can I use Orbit to manage recurring payments and subscriptions?', a: 'Yes, it supports recurring fee structures, installment plans, and automated payment tracking with digital receipts.' },
-  ];
+  const { content } = useContent();
+  const faqs = content?.faqs || [];
 
   return (
     <section style={{ background: '#fff', padding: '100px 0' }}>
@@ -16,10 +13,8 @@ export default function TestimonialFAQ() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 64, alignItems: 'start' }}>
           {/* Left: Title */}
           <div>
-            <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', marginBottom: 16 }}>
-              Got questions?<br/>We've got answers.
-            </h2>
-            <p style={{ color: '#6B6B6B', fontSize: 16 }}>Got questions? We've got answers.</p>
+            <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: content?.extraData?.faq_t || 'Got questions?<br/>We\'ve got answers.' }}></h2>
+            <p style={{ color: '#6B6B6B', fontSize: 16 }}>{content?.extraData?.faq_s || 'Got questions? We\'ve got answers.'}</p>
           </div>
 
           {/* Right: Accordion */}
