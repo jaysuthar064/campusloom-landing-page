@@ -63,8 +63,16 @@ function AppContent() {
 
   if (error) {
     return (
-      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#fff', color: '#EF4444', fontSize: 20, fontWeight: 500, padding: 24, textAlign: 'center' }}>
-        Failed to load CMS content.<br/>Please ensure WordPress is running at localhost:8883 and the Campus Loom Headless plugin is activated.
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#fff', padding: 24, textAlign: 'center' }}>
+        <div style={{ background: '#FFF0F0', color: '#EF4444', padding: '16px 24px', borderRadius: 12, fontWeight: 600, fontSize: 18, marginBottom: 16 }}>
+          Service Unavailable
+        </div>
+        <p style={{ color: '#6B6B6B', fontSize: 16, maxWidth: 400, lineHeight: 1.6 }}>
+          We are currently updating our systems to provide a better experience. Please try refreshing the page in a few minutes.
+        </p>
+        <button onClick={() => window.location.reload()} style={{ marginTop: 24, padding: '12px 24px', background: '#000', color: '#fff', border: 'none', borderRadius: 100, fontWeight: 600, cursor: 'pointer', transition: 'transform 0.1s' }} onMouseDown={e => e.target.style.transform='scale(0.95)'} onMouseUp={e => e.target.style.transform='scale(1)'} onMouseLeave={e => e.target.style.transform='scale(1)'}>
+          Refresh Page
+        </button>
       </div>
     );
   }
