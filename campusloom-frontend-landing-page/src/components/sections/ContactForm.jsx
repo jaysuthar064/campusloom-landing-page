@@ -27,13 +27,13 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      // Append ?v=2 to bust the stubborn LiteSpeed Server cache on the live site
-      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=2`, {
+      // Use x-www-form-urlencoded to completely bypass the broken OPTIONS preflight check on the server
+      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=3`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formData)
+        body: new URLSearchParams(formData).toString()
       });
 
       const result = await response.json();
