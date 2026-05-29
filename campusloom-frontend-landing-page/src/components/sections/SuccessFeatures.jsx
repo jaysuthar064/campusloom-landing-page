@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export default function SuccessFeatures() {
   const features = [
@@ -25,18 +26,18 @@ export default function SuccessFeatures() {
   return (
     <section style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
-        <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
           Excellence by the numbers.
-        </h2>
-        <p style={{ color: '#6B6B6B', textAlign: 'center', marginBottom: 60, fontSize: 16 }}>
+        </motion.h2>
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} style={{ color: '#6B6B6B', textAlign: 'center', marginBottom: 60, fontSize: 16 }}>
           Easily visualize your institution's growth and daily operations through intuitive dashboards.
-        </p>
+        </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-12 md:gap-16 items-center">
           {/* Left: Feature list */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
             {features.map((f, i) => (
-              <div key={i} style={{ 
+              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5, delay: i * 0.15 }} key={i} style={{ 
                 padding: '0 0 0 24px', 
                 borderLeft: i === 0 ? '4px solid #3B82F6' : '4px solid transparent',
                 marginLeft: i === 0 ? -4 : 0
@@ -46,12 +47,12 @@ export default function SuccessFeatures() {
                   <h4 style={{ fontSize: 20, fontWeight: 700, color: '#1A1A1A' }}>{f.title}</h4>
                 </div>
                 <p style={{ fontSize: 16, color: '#6B6B6B', lineHeight: 1.7 }}>{f.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Right: White card with mock data widget */}
-          <div style={{ background: '#F7F7F7', borderRadius: 24, padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 450, border: '1px solid #E8E8E8' }}>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6 }} whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(0,0,0,0.06)' }} style={{ background: '#F7F7F7', borderRadius: 24, padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 450, border: '1px solid #E8E8E8' }}>
             <div style={{ background: '#fff', borderRadius: 20, padding: 32, width: '85%', boxShadow: '0 10px 40px rgba(0,0,0,0.06)', position: 'relative' }}>
               <div style={{ position: 'absolute', bottom: -12, left: '5%', width: '90%', height: 20, background: '#fff', borderRadius: 20, zIndex: -1, boxShadow: '0 10px 30px rgba(0,0,0,0.04)', opacity: 0.6 }}></div>
               <div style={{ position: 'absolute', bottom: -24, left: '10%', width: '80%', height: 20, background: '#fff', borderRadius: 20, zIndex: -2, boxShadow: '0 10px 20px rgba(0,0,0,0.02)', opacity: 0.3 }}></div>
@@ -70,7 +71,7 @@ export default function SuccessFeatures() {
                 <span style={{ fontSize: 13, color: '#1A1A1A', fontWeight: 600, textAlign: 'right', lineHeight: 1.4 }}>Admissions vs<br/>last year</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

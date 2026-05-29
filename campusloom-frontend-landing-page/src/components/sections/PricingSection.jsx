@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
+import { motion } from 'framer-motion';
 
 export default function PricingSection() {
   const { content } = useContent();
@@ -20,7 +21,7 @@ export default function PricingSection() {
       <div className="container-main">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {regularPlans.map((plan, i) => (
-            <div key={i} style={{ 
+            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5, delay: i * 0.15 }} whileHover={{ scale: 1.02, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} style={{ 
               background: '#F9FAFB', 
               borderRadius: 24, 
               padding: 48,
@@ -53,12 +54,12 @@ export default function PricingSection() {
                   {f}
                 </div>
               ))}
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Enterprise / Custom Plan CTA */}
-        <div className="bg-black rounded-3xl p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.5, delay: 0.2 }} className="bg-black rounded-3xl p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
             <h3 style={{ fontSize: 24, fontWeight: 700, color: '#fff', marginBottom: 12 }}>{content?.extraData?.pr_cta_t || 'Custom Solution'}</h3>
             <p style={{ fontSize: 16, color: '#999', maxWidth: 600, lineHeight: 1.6 }}>{content?.extraData?.pr_cta_s || 'Looking for a highly customizable CRM solution for a large organization? Contact us for a tailored package.'}</p>
@@ -73,7 +74,7 @@ export default function PricingSection() {
               <span className="btn-text-hidden">{content?.extraData?.pr_btn2 || 'Contact Us'}</span>
             </span>
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

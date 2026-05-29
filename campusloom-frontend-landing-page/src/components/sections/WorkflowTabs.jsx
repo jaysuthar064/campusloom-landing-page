@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
+import { motion } from 'framer-motion';
 
 export default function WorkflowTabs() {
   const { content } = useContent();
@@ -22,14 +23,14 @@ export default function WorkflowTabs() {
   return (
     <section id="workflows" style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
-        <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
           {content?.extraData?.wf_sub || 'All your academic workflows in a single place.'}
-        </h2>
+        </motion.h2>
 
         {/* Two Side-by-Side White Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 48 }}>
           {/* Card 1: Attendance */}
-          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 36, border: '1px solid #E8E8E8' }}>
+          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, delay: 0.1 }} whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} style={{ background: '#F7F7F7', borderRadius: 20, padding: 36, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
               <span style={{ width: 40, height: 40, borderRadius: 12, background: '#3B82F6', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                 {tabs[0].icon}
@@ -70,10 +71,10 @@ export default function WorkflowTabs() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Card 2: Teacher Portal */}
-          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 36, border: '1px solid #E8E8E8' }}>
+          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, delay: 0.2 }} whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} style={{ background: '#F7F7F7', borderRadius: 20, padding: 36, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
               <span style={{ width: 40, height: 40, borderRadius: 12, background: '#22C55E', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                 {tabs[1].icon}
@@ -111,7 +112,7 @@ export default function WorkflowTabs() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

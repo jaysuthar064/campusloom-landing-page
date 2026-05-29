@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
+import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   const containerRef = useRef(null);
@@ -75,34 +76,34 @@ export default function HeroSection() {
           </span>
         </h1>
         
-        <p className="animate-fade-up delay-3" style={{ textAlign: 'center', fontSize: 'clamp(16px, 2vw, 20px)', color: '#404040', maxWidth: 800, margin: '0 auto 40px', lineHeight: 1.6, fontWeight: 500 }}>
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.2 }} style={{ textAlign: 'center', fontSize: 'clamp(16px, 2vw, 20px)', color: '#404040', maxWidth: 800, margin: '0 auto 40px', lineHeight: 1.6, fontWeight: 500 }}>
           {content.hero.subtitle}
-        </p>
+        </motion.p>
 
         {/* Buttons */}
-        <div className="animate-fade-up delay-4 flex flex-col sm:flex-row justify-center gap-4 mb-6" style={{ alignItems: 'center' }}>
-          <a href="/#contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.4 }} className="flex flex-col sm:flex-row justify-center gap-4 mb-6" style={{ alignItems: 'center' }}>
+          <motion.a href="/#contact" whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(0,0,0,0.15)' }} whileTap={{ scale: 0.95 }} className="btn-primary" style={{ padding: '18px 36px', fontSize: 16 }}>
             <span className="btn-text-wrapper">
               <span className="btn-text-visible">{content?.hero?.btn1 || 'Request A Demo'}</span>
               <span className="btn-text-hidden">{content?.hero?.btn1 || 'Request A Demo'}</span>
             </span>
-          </a>
-          <a href="/#features" className="btn-secondary" style={{ padding: '18px 36px', fontSize: 16, background: '#fff' }}>
+          </motion.a>
+          <motion.a href="/#features" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-secondary" style={{ padding: '18px 36px', fontSize: 16, background: '#fff' }}>
             <span className="btn-text-wrapper">
               <span className="btn-text-visible">{content.hero.btn2 || "Explore Features"}</span>
               <span className="btn-text-hidden">{content.hero.btn2 || "Explore Features"}</span>
             </span>
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
         
         {/* Subtext */}
-        <div className="animate-fade-up delay-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, color: '#1A1A1A', fontSize: 15, fontWeight: 600, marginBottom: 80 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.6 }} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, color: '#1A1A1A', fontSize: 15, fontWeight: 600, marginBottom: 80 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5l-10 14M22 12H2M19 17L5 5"/></svg>
           {content.hero.subtext || "No credit card required. Free 14 days trial"}
-        </div>
+        </motion.div>
 
         {/* Hero Visual Area (2 Column Grid) */}
-        <div className="animate-fade-up delay-5 grid grid-cols-1 md:grid-cols-[2fr_1.1fr] gap-8 max-w-[1100px] mx-auto" style={{ perspective: '1000px' }}>
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.8 }} className="grid grid-cols-1 md:grid-cols-[2fr_1.1fr] gap-8 max-w-[1100px] mx-auto" style={{ perspective: '1000px' }}>
           
           {/* Left Large Image */}
           <div ref={leftImgRef} className="zoom-wrapper floating" style={{ position: 'relative', borderRadius: 32, height: 500, boxShadow: '0 24px 48px rgba(0,0,0,0.08)', transition: 'transform 0.1s linear' }}>
@@ -146,7 +147,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-        </div>
+        </motion.div>
       </div>
     </section>
   );

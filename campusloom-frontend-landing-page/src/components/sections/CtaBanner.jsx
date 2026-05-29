@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
+import { motion } from 'framer-motion';
 
 export default function CtaBanner() {
   const { content } = useContent();
   return (
     <section style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
-        <div style={{
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8 }} style={{
           background: '#3B82F6',
           borderRadius: 24,
           padding: '80px 40px',
@@ -83,7 +84,7 @@ export default function CtaBanner() {
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

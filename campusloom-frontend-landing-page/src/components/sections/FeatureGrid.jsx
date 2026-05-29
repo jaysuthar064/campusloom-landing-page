@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
+import { motion } from 'framer-motion';
 
 export default function FeatureGrid() {
   const { content } = useContent();
@@ -13,8 +14,8 @@ export default function FeatureGrid() {
       <div className="container-main" style={{ display: 'flex', flexDirection: 'column', gap: 100 }}>
 
         {/* Feature 1 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
-          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.7 }} className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <motion.div whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} transition={{ duration: 0.3 }} style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
               <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>{content?.extraData?.feat1_l1 || 'Academic Performance'}</span>
               <span style={{ color: '#1A1A1A', fontWeight: 600 }}>
@@ -30,7 +31,7 @@ export default function FeatureGrid() {
                  </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
@@ -46,10 +47,10 @@ export default function FeatureGrid() {
               </span>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Feature 2 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.7 }} className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.15, color: '#1A1A1A', marginBottom: 20 }}>
               {feature2.title}
@@ -79,7 +80,7 @@ export default function FeatureGrid() {
             </a>
           </div>
 
-          <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
+          <motion.div whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} transition={{ duration: 0.3 }} style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
               <span style={{ fontSize: 16, fontWeight: 600, color: '#1A1A1A' }}>{content?.extraData?.feat2_l1 || 'Fee Collection Insights'}</span>
               <span style={{ color: '#1A1A1A', fontWeight: 600 }}>
@@ -109,8 +110,8 @@ export default function FeatureGrid() {
             <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 13, color: '#1A1A1A', marginTop: 12, fontWeight: 500 }}>
               <span>{content?.extraData?.feat2_l3 || '₹3,65,900'}</span><span>{content?.extraData?.feat2_l4 || '₹8,69,900'}</span><span>{content?.extraData?.feat2_l5 || '₹6,55,800'}</span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
