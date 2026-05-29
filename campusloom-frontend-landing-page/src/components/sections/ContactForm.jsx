@@ -27,13 +27,12 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      // Use x-www-form-urlencoded to completely bypass the broken OPTIONS preflight check on the server
-      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=3`, {
+      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=5`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: new URLSearchParams(formData).toString()
+        body: JSON.stringify(formData)
       });
 
       const result = await response.json();
