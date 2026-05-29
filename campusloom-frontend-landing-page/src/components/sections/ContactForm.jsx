@@ -27,7 +27,8 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact`, {
+      // Append ?v=2 to bust the stubborn LiteSpeed Server cache on the live site
+      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=2`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
