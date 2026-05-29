@@ -51,7 +51,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#FAFAFA]">
+    <section id="contact" className="bg-[#FAFAFA]" style={{ padding: '70px 0' }}>
       <div className="container-main">
         
         <div className="text-center mb-16">

@@ -7,7 +7,7 @@ export default function TestimonialFAQ() {
   const faqs = content?.faqs || [];
 
   return (
-    <section style={{ background: '#fff', padding: '100px 0' }}>
+    <section id="faq" style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
         {/* Two-column FAQ */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-16 items-start">

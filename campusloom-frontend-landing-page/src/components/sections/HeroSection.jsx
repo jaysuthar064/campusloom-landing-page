@@ -44,7 +44,7 @@ export default function HeroSection() {
 
   return (
     <section className="animate-fade-up" ref={containerRef} style={{ 
-      padding: '20px 0 100px', 
+      padding: '80px 0 70px', 
       background: '#fff',
       position: 'relative',
       overflow: 'hidden'
@@ -81,12 +81,12 @@ export default function HeroSection() {
 
         {/* Buttons */}
         <div className="animate-fade-up delay-4 flex flex-col sm:flex-row justify-center gap-4 mb-6" style={{ alignItems: 'center' }}>
-          <Link to="/contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
+          <a href="/#contact" className="btn-primary hero-btn-hover" style={{ padding: '18px 36px', fontSize: 16 }}>
             <span className="btn-text-wrapper">
-              <span className="btn-text-visible">{content.hero.btn1 || "Request A Demo"}</span>
-              <span className="btn-text-hidden">{content.hero.btn1 || "Request A Demo"}</span>
+              <span className="btn-text-visible">{content?.hero?.btn1 || 'Request A Demo'}</span>
+              <span className="btn-text-hidden">{content?.hero?.btn1 || 'Request A Demo'}</span>
             </span>
-          </Link>
+          </a>
           <a href="/#features" className="btn-secondary" style={{ padding: '18px 36px', fontSize: 16, background: '#fff' }}>
             <span className="btn-text-wrapper">
               <span className="btn-text-visible">{content.hero.btn2 || "Explore Features"}</span>

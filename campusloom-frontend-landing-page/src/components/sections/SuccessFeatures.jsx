@@ -23,7 +23,7 @@ export default function SuccessFeatures() {
   ];
 
   return (
-    <section style={{ background: '#fff', padding: '100px 0' }}>
+    <section style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
         <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
           Excellence by the numbers.

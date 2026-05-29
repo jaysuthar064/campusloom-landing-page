@@ -20,7 +20,7 @@ export default function WorkflowTabs() {
   });
 
   return (
-    <section style={{ background: '#fff', padding: '100px 0' }}>
+    <section id="workflows" style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
         <h2 style={{ color: '#1A1A1A', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 700, textAlign: 'center', marginBottom: 12, letterSpacing: '-0.02em' }}>
           {content?.extraData?.wf_sub || 'All your academic workflows in a single place.'}
@@ -39,12 +39,12 @@ export default function WorkflowTabs() {
             <h3 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A', marginBottom: 16, letterSpacing: '-0.015em' }}>{tabs[0].title}</h3>
             <p style={{ fontSize: 15, color: '#6B6B6B', lineHeight: 1.65, marginBottom: 24 }}>{tabs[0].desc}</p>
             
-            <Link to="/contact" className="btn-primary" style={{ marginBottom: 32 }}>
+            <a href="/#contact" className="btn-primary" style={{ marginBottom: 32 }}>
               <span className="btn-text-wrapper">
                 <span className="btn-text-visible">{content?.extraData?.wf_btn || 'Book a Demo'}</span>
                 <span className="btn-text-hidden">{content?.extraData?.wf_btn || 'Book a Demo'}</span>
               </span>
-            </Link>
+            </a>
 
             <div style={{ background: '#fff', borderRadius: 16, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -83,12 +83,12 @@ export default function WorkflowTabs() {
             <h3 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A', marginBottom: 16, letterSpacing: '-0.015em' }}>{tabs[1].title}</h3>
             <p style={{ fontSize: 15, color: '#6B6B6B', lineHeight: 1.65, marginBottom: 24 }}>{tabs[1].desc}</p>
             
-            <Link to="/contact" className="btn-primary" style={{ marginBottom: 32 }}>
+            <a href="/#contact" className="btn-primary" style={{ marginBottom: 32 }}>
               <span className="btn-text-wrapper">
                 <span className="btn-text-visible">{content?.extraData?.wf_btn || 'Book a Demo'}</span>
                 <span className="btn-text-hidden">{content?.extraData?.wf_btn || 'Book a Demo'}</span>
               </span>
-            </Link>
+            </a>
 
             <div style={{ background: '#fff', borderRadius: 16, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', gap: 32, marginBottom: 16 }}>

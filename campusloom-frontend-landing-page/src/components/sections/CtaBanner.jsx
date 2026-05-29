@@ -5,7 +5,7 @@ import { useContent } from '../../context/ContentContext';
 export default function CtaBanner() {
   const { content } = useContent();
   return (
-    <section style={{ background: '#fff', padding: '40px 0 100px' }}>
+    <section style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
         <div style={{
           background: '#3B82F6',
@@ -64,15 +64,17 @@ export default function CtaBanner() {
               {content?.extraData?.cta_t || 'The modern solutions to run your institution.'}
             </h2>
             {content?.extraData?.cta_s && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 18, marginBottom: 32 }}>{content.extraData.cta_s}</p>}
-            <Link to="/contact" style={{
+            <a href="/#contact" style={{
               display: 'inline-block', padding: '16px 40px',
               background: '#000', color: '#fff', borderRadius: 100,
               fontWeight: 600, fontSize: 16, textDecoration: 'none',
-              transition: 'transform 0.15s',
-            }}
-              onMouseEnter={e => e.target.style.transform = 'scale(1.04)'}
-              onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-            >{content?.extraData?.cta_btn1 || 'Request A Demo'}</Link>
+              boxShadow: '0 4px 14px 0 rgba(0,0,0,0.2)',
+            }}>
+              <span className="btn-text-wrapper">
+                <span className="btn-text-visible">{content?.extraData?.cta_btn2 || 'Contact Sales'}</span>
+                <span className="btn-text-hidden">{content?.extraData?.cta_btn2 || 'Contact Sales'}</span>
+              </span>
+            </a>
             
             <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, fontWeight: 500 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

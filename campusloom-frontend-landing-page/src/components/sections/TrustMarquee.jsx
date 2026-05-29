@@ -15,7 +15,7 @@ export default function TrustMarquee() {
   const all = [...clients, ...clients, ...clients];
 
   return (
-    <section style={{ background: '#fff', padding: '60px 0', marginTop: 60 }}>
+    <section style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main">
         <p style={{ textAlign: 'center', color: '#6B6B6B', fontSize: 14, fontWeight: 500, marginBottom: 40, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           {content?.trust?.subtitle || "Trusted by leading educational institutions worldwide"}

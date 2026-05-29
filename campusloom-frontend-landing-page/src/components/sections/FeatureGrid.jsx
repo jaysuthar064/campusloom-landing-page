@@ -9,7 +9,7 @@ export default function FeatureGrid() {
   const feature2 = content?.features?.[1] || { title: '', desc: '' };
 
   return (
-    <section id="features" style={{ background: '#fff', padding: '100px 0' }}>
+    <section id="features" style={{ background: '#fff', padding: '70px 0' }}>
       <div className="container-main" style={{ display: 'flex', flexDirection: 'column', gap: 100 }}>
 
         {/* Feature 1 */}
@@ -71,12 +71,12 @@ export default function FeatureGrid() {
                 </div>
               ))}
             </div>
-            <Link to="/contact" className="btn-primary">
+            <a href="/#contact" className="btn-primary">
               <span className="btn-text-wrapper">
                 <span className="btn-text-visible">{content?.extraData?.feat_btn2 || 'Book A Demo'}</span>
                 <span className="btn-text-hidden">{content?.extraData?.feat_btn2 || 'Book A Demo'}</span>
               </span>
-            </Link>
+            </a>
           </div>
 
           <div style={{ background: '#F7F7F7', borderRadius: 20, padding: 40, border: '1px solid #E8E8E8' }}>
