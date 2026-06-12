@@ -28,7 +28,7 @@ export default function WorkflowTabs() {
         </motion.h2>
 
         {/* Two Side-by-Side White Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 48 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
           {/* Card 1: Attendance */}
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, delay: 0.1 }} whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} style={{ background: '#F7F7F7', borderRadius: 20, padding: 36, border: '1px solid #E8E8E8' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
