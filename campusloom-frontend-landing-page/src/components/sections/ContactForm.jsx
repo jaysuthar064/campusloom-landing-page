@@ -3,8 +3,7 @@ import { useContent } from '../../context/ContentContext';
 
 export default function ContactForm() {
   const { content } = useContent();
-  const contactInfo = content?.contactInfo || {};
-  const wpUrl = import.meta.env.VITE_WP_API_URL || 'http://localhost:8883';
+  const contactInfo = content?.extraData || {};
   
   const [formData, setFormData] = useState({
     name: '',
@@ -27,10 +26,12 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      const response = await fetch(`${wpUrl}/wp-json/campusloom/v1/contact?v=5`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(formData)
       });
