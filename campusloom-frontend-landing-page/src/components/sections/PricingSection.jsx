@@ -31,7 +31,9 @@ export default function PricingSection() {
     const priceNumeric = parseInt(plan.price.replace(/[^0-9]/g, ''), 10);
     
     try {
-      const res = await fetch('/api/create-order', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const endpoint = apiUrl ? `${apiUrl}/api/create-order` : '/api/create-order';
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
