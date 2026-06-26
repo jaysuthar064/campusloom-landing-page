@@ -3,20 +3,23 @@ export const defaultContent = {
     {
       name: "Basic",
       desc: "Perfect for small institutions getting started.",
-      price: "$49",
-      features: ["Up to 500 Students", "Basic Reporting", "Email Support", "Core Modules"]
+      price: "₹3,999",
+      features: ["Up to 500 Students", "Basic Reporting", "Email Support", "Core Modules"],
+      paymentLink: "#test-mode-basic"
     },
     {
       name: "Pro",
       desc: "Ideal for growing schools with advanced needs.",
-      price: "$99",
-      features: ["Up to 2000 Students", "Advanced Analytics", "Priority Support", "Custom Branding", "SMS Alerts"]
+      price: "₹7,999",
+      features: ["Up to 2000 Students", "Advanced Analytics", "Priority Support", "Custom Branding", "SMS Alerts"],
+      paymentLink: "#test-mode-pro"
     },
     {
       name: "Enterprise",
       desc: "Full suite for large school districts.",
-      price: "$199",
-      features: ["Unlimited Students", "Dedicated Account Manager", "API Access", "Custom Integrations", "On-site Training"]
+      price: "₹15,999",
+      features: ["Unlimited Students", "Dedicated Account Manager", "API Access", "Custom Integrations", "On-site Training"],
+      paymentLink: "#contact" // Enterprise usually requires contacting sales, not direct payment
     }
   ],
   faqs: [
@@ -77,7 +80,7 @@ export const defaultContent = {
     sf_sub: "Easily visualize your institution's growth and daily operations through intuitive dashboards.",
     
     pr_btn1: "Get Started",
-    pr_hide: "1",
+    pr_hide: "0",
     
     faq_t: "Got questions?<br/>We've got answers.",
     faq_s: "Everything you need to know about Campus Loom.",

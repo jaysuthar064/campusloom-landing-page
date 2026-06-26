@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const Razorpay = require('razorpay');
 require('dotenv').config();
 
 const app = express();
@@ -59,6 +60,38 @@ ${message}
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).json({ message: 'Failed to send message. Please check server logs.' });
+  }
+});
+
+// Initialize Razorpay
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+// Razorpay Order Creation Endpoint
+app.post('/api/create-order', async (req, res) => {
+  try {
+    const { amount, currency = "USD", notes = {} } = req.body;
+    
+    // Create an order in Razorpay
+    const options = {
+      amount: amount * 100, // Razorpay expects amount in smallest currency subunit (e.g. cents)
+      currency,
+      receipt: `rcpt_${Date.now()}`,
+      notes
+    };
+
+    const order = await razorpay.orders.create(options);
+    
+    if (!order) {
+      return res.status(500).send("Some error occured while creating Razorpay order");
+    }
+
+    res.json(order);
+  } catch (error) {
+    console.error("Error creating Razorpay order:", error);
+    res.status(500).json({ error: "Failed to create order" });
   }
 });
 

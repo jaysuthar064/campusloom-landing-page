@@ -12,6 +12,74 @@ export default function PricingSection() {
   }
   
   const allPlans = content?.pricingPlans || [];
+  const [paymentResult, setPaymentResult] = React.useState({ show: false, success: false, data: null });
+  const [registrationModal, setRegistrationModal] = React.useState({ show: false, plan: null });
+  const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', institution: '' });
+
+  const handlePlanClick = (e, plan) => {
+    if (plan.paymentLink && plan.paymentLink.startsWith('#test-mode')) {
+      e.preventDefault();
+      setRegistrationModal({ show: true, plan });
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const plan = registrationModal.plan;
+    setRegistrationModal({ show: false, plan: null });
+    
+    const priceNumeric = parseInt(plan.price.replace(/[^0-9]/g, ''), 10);
+    
+    try {
+      const res = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          amount: priceNumeric, 
+          currency: 'INR',
+          notes: {
+            Name: formData.name,
+            Email: formData.email,
+            Phone: formData.phone,
+            Institution: formData.institution
+          }
+        })
+      });
+      
+      const order = await res.json();
+      if (!order || order.error) throw new Error("Failed to create order");
+      
+      const options = {
+        key: "rzp_test_T64bTqIYNC9jG5",
+        amount: order.amount,
+        currency: order.currency,
+        name: "Campus Loom",
+        description: `${plan.name} Plan Subscription`,
+        order_id: order.id,
+        handler: function (response) {
+          setPaymentResult({ show: true, success: true, data: response });
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone
+        },
+        theme: {
+          color: "#000000"
+        }
+      };
+      
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on('payment.failed', function (response){
+        setPaymentResult({ show: true, success: false, data: response.error });
+      });
+      rzp1.open();
+
+    } catch (err) {
+      console.error(err);
+      setPaymentResult({ show: true, success: false, data: { description: "Failed to initialize payment gateway. Please ensure the backend is running." } });
+    }
+  };
   
   // Render all plans dynamically
   const regularPlans = allPlans;
@@ -33,7 +101,7 @@ export default function PricingSection() {
                 <span style={{ fontSize: 48, fontWeight: 800, color: '#1A1A1A', fontFamily: "'Bricolage Grotesque'", letterSpacing: '-0.03em' }}>{plan.price}</span>
                 <span style={{ fontSize: 16, color: '#6B6B6B' }}>/Months</span>
               </div>
-              <a href="/#contact" style={{
+              <a href={plan.paymentLink || "/#contact"} onClick={(e) => handlePlanClick(e, plan)} target={plan.paymentLink?.startsWith('http') ? "_blank" : "_self"} rel="noreferrer" style={{
                 display: 'block', textAlign: 'center', padding: '18px 0',
                 background: '#000', color: '#fff', borderRadius: 100,
                 fontWeight: 600, fontSize: 16, textDecoration: 'none',
@@ -76,6 +144,72 @@ export default function PricingSection() {
           </a>
         </motion.div>
       </div>
+
+      {/* Pre-Checkout Registration Modal */}
+      {registrationModal.show && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#fff', borderRadius: 24, padding: 40, maxWidth: 450, width: '90%', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <h3 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>Almost there!</h3>
+              <button onClick={() => setRegistrationModal({ show: false, plan: null })} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999' }}>
+                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <p style={{ color: '#6B6B6B', marginBottom: 24, fontSize: 15 }}>Please provide your institution details to continue to the secure checkout for the <strong>{registrationModal.plan.name} Plan</strong>.</p>
+            
+            <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <input type="text" required placeholder="Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 15 }} />
+              <input type="email" required placeholder="Email Address" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 15 }} />
+              <input type="tel" required placeholder="Phone Number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 15 }} />
+              <input type="text" required placeholder="Institution Name" value={formData.institution} onChange={e => setFormData({...formData, institution: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 15 }} />
+              
+              <button type="submit" style={{ background: '#1A1A1A', color: '#fff', padding: '14px', borderRadius: 100, fontWeight: 600, width: '100%', cursor: 'pointer', border: 'none', marginTop: 8 }}>
+                Proceed to Payment
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Payment Result Modal */}
+      {paymentResult.show && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#fff', borderRadius: 24, padding: 40, maxWidth: 400, width: '90%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
+            
+            <div style={{ 
+              width: 64, height: 64, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
+              background: paymentResult.success ? '#ECFDF5' : '#FEF2F2', 
+              color: paymentResult.success ? '#10B981' : '#EF4444' 
+            }}>
+              {paymentResult.success ? (
+                <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              ) : (
+                <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              )}
+            </div>
+
+            <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, color: '#1A1A1A' }}>
+              {paymentResult.success ? 'Payment Successful!' : 'Payment Failed'}
+            </h3>
+            
+            <p style={{ color: '#6B6B6B', marginBottom: 24, lineHeight: 1.5, fontSize: 15 }}>
+              {paymentResult.success ? (
+                <>
+                  Thank you for your purchase. Your subscription is now active.<br/><br/>
+                  <span style={{ fontSize: 13, color: '#999' }}>Transaction ID: {paymentResult.data.razorpay_payment_id}</span>
+                </>
+              ) : (
+                paymentResult.data?.description || "An unexpected error occurred."
+              )}
+            </p>
+
+            <button onClick={() => setPaymentResult({ show: false, success: false, data: null })} style={{ background: '#1A1A1A', color: '#fff', padding: '12px 24px', borderRadius: 100, fontWeight: 600, width: '100%', cursor: 'pointer', border: 'none' }}>
+              {paymentResult.success ? 'Continue to Dashboard' : 'Try Again'}
+            </button>
+          </motion.div>
+        </div>
+      )}
+
     </section>
   );
 }
