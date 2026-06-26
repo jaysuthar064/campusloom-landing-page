@@ -84,7 +84,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <div className="text-sm text-[#A3A3A3] mb-1">Phone</div>
-                    <div className="font-semibold">{contactInfo.phone || '+91 98765 43210'}</div>
+                    <div className="font-semibold">{contactInfo.phone || '+91 9978651196'}</div>
                   </div>
                 </div>
                 
@@ -94,7 +94,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <div className="text-sm text-[#A3A3A3] mb-1">Email</div>
-                    <div className="font-semibold">{contactInfo.email || 'info@smartshala.com'}</div>
+                    <div className="font-semibold">{contactInfo.email || 'letssmartshala@gmail.com'}</div>
                   </div>
                 </div>
                 
