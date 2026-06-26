@@ -24,7 +24,7 @@ export const defaultContent = {
   ],
   faqs: [
     {
-      q: "How long does it take to deploy Campus Loom?",
+      q: "How long does it take to deploy SmartShala?",
       a: "Setup typically takes less than 48 hours. Our onboarding team will assist you with data migration and initial configuration to ensure a smooth transition."
     },
     {
@@ -48,7 +48,7 @@ export const defaultContent = {
   ],
   hero: {
     title1: "The modern solutions to run your institution.",
-    title2: "Empower your school with Campus Loom.",
+    title2: "Empower your school with SmartShala.",
     subtitle: "Streamline operations, boost engagement, and simplify administration with our all-in-one platform.",
     btn1: "Book a Demo",
     btn2: "Explore Features",
@@ -65,7 +65,7 @@ export const defaultContent = {
   stats: [
     { value: "10k+", label: "Active Students", desc: "Currently managed using our intuitive platform every single day." },
     { value: "98%", label: "Parent Satisfaction", desc: "High engagement rates through our dedicated mobile applications." },
-    { value: "500+", label: "Institutions", desc: "Trust Campus Loom to run their entire administrative backend." }
+    { value: "500+", label: "Institutions", desc: "Trust SmartShala to run their entire administrative backend." }
   ],
   extraData: {
     hero_btn1: "Book a Demo",
@@ -83,10 +83,10 @@ export const defaultContent = {
     pr_hide: "0",
     
     faq_t: "Got questions?<br/>We've got answers.",
-    faq_s: "Everything you need to know about Campus Loom.",
+    faq_s: "Everything you need to know about SmartShala.",
     
     cta_t: "Ready to modernize your campus?",
-    cta_s: "Join hundreds of schools already using Campus Loom to streamline their operations.",
+    cta_s: "Join hundreds of schools already using SmartShala to streamline their operations.",
     cta_btn2: "Contact Sales",
     cta_ft: "No credit card required. Cancel at anytime.",
     

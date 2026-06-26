@@ -55,7 +55,7 @@ export default function PricingSection() {
         key: "rzp_test_T64bTqIYNC9jG5",
         amount: order.amount,
         currency: order.currency,
-        name: "Campus Loom",
+        name: "SmartShala",
         description: `${plan.name} Plan Subscription`,
         order_id: order.id,
         handler: function (response) {

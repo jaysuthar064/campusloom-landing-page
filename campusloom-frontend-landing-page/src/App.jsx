@@ -55,7 +55,7 @@ function AppContent() {
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           style={{ color: '#1A1A1A', fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em' }}
         >
-          Loading Campus Loom...
+          Loading SmartShala...
         </motion.div>
       </div>
     );

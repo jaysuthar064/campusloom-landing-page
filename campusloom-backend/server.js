@@ -42,9 +42,9 @@ app.post('/api/contact', async (req, res) => {
       from: `"${name}" <${process.env.SMTP_USER}>`, // Must send from authenticated email to avoid spam blocks
       replyTo: email,
       to: process.env.RECEIVER_EMAIL || process.env.SMTP_USER,
-      subject: `New Lead: ${institution || 'Campus Loom Website'}`,
+      subject: `New Lead: ${institution || 'SmartShala Website'}`,
       text: `
-You have received a new lead from the Campus Loom website!
+You have received a new lead from the SmartShala website!
 
 Name: ${name}
 Email: ${email}
@@ -97,7 +97,7 @@ app.post('/api/create-order', async (req, res) => {
 
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
-    console.log(`Campus Loom Backend server running on http://localhost:${PORT}`);
+    console.log(`SmartShala Backend server running on http://localhost:${PORT}`);
   });
 }
 
