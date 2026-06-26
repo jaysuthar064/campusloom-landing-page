@@ -47,9 +47,9 @@ export const defaultContent = {
     { label: "Comms", title: "Instant Communication", desc: "Send bulk SMS, emails, and in-app notifications to parents, staff, and students in one click." }
   ],
   hero: {
-    title1: "The modern solutions to run your institution.",
-    title2: "Empower your school with SmartShala.",
-    subtitle: "Streamline operations, boost engagement, and simplify administration with our all-in-one platform.",
+    title1: "The modern solution to run your",
+    title2: "institution.",
+    subtitle: "Empower your school with SmartShala. Streamline operations, boost engagement, and simplify administration with our all-in-one platform.",
     btn1: "Book a Demo",
     btn2: "Explore Features",
     subtext: "Trusted by over 500+ top educational institutions.",

@@ -67,10 +67,9 @@ export default function HeroSection() {
         
         {/* Cinematic Letter-by-Letter Headline */}
         <h1 style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: 'clamp(32px, 4.5vw, 64px)', fontWeight: 600, lineHeight: 1.1, color: '#1A1A1A', marginBottom: 24, letterSpacing: '-0.02em', margin: '0 auto 24px', width: '100%' }}>
-          <span style={{ display: 'inline-block' }}>
+          <span style={{ display: 'inline-block', marginRight: '16px' }}>
             {renderAnimatedText(content.hero.title1, 0.1, "hero-letter")}
           </span>
-          <br/>
           <span style={{ display: 'inline-block' }}>
             {renderAnimatedText(content.hero.title2, 0.8, "hero-letter-gradient")}
           </span>
