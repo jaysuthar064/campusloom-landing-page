@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/*
+  Design tokens.
+
+  Colours are sampled directly from Smart Shala_home_page.pdf, not eyeballed —
+  see Documents/DESIGN.md §2. The palette is deliberately monochrome blue plus
+  neutrals; there is no secondary accent anywhere in the design.
+*/
+@theme {
+  /* Brand */
+  --color-brand: #0047fd;
+  --color-brand-hover: #0039ce;
+  --color-brand-soft: #e8eefe;
+
+  /* Ink */
+  --color-ink: #08080f;
+  --color-muted: #798298;
+  --color-footer-ink: #3d405e;
+
+  /* Surfaces */
+  --color-tint: #f5f7fe;
+  --color-hairline: #eaeef7;
+
+  /* Type */
+  /*
+    The PDF has no embedded font info (Canva flattens text to outlines), so
+    this was matched by measurement: the design's cap-to-descender height puts
+    the navbar at ~15.5px, but its glyphs are ~10% narrower than Poppins at
+    that size. Outfit has the same geometric skeleton at that narrower width.
+  */
+  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /*
+    Page width, measured off the artboard rather than assumed: content spans
+    1334px in the navbar row and 1309px in the features grid at a 1440px
+    viewport, i.e. 53px gutters. Container.jsx caps the outer width here and
+    applies the gutter as padding. See Documents/DESIGN.md §1.
+  */
+  --spacing-page: 1440px;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor targets must clear the sticky navbar. */
+  scroll-padding-top: 120px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+
+   Three effects, all cheap: a scroll-triggered reveal, a hover lift on cards,
+   and a slow float on the product visuals. Everything is transform/opacity
+   only, so it stays on the compositor.
+
+   All of it is disabled under prefers-reduced-motion at the bottom of this
+   block — that is not optional, some people get motion sick.
+--------------------------------------------------------------------------- */
+
+/* Scroll reveal — see components/ui/Reveal.jsx */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 0.7, 0.28, 1),
+    transform 0.75s cubic-bezier(0.22, 0.7, 0.28, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hover lift, for cards */
+.lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.7, 0.28, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 0.7, 0.28, 1),
+    border-color 0.35s ease;
+}
+
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 55px -30px rgba(8, 8, 15, 0.42);
+}
+
+/* Buttons and small interactive bits */
+.press {
+  transition:
+    transform 0.22s cubic-bezier(0.22, 0.7, 0.28, 1),
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.press:hover {
+  transform: translateY(-2px);
+}
+
+.press:active {
+  transform: translateY(0);
+}
+
+/* Slow float, for the product visuals and the orbiting chips */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.float-slow {
+  animation: float-y 9s ease-in-out infinite;
+}
+
+.float-delay-1 {
+  animation-delay: -2.3s;
+}
+
+.float-delay-2 {
+  animation-delay: -4.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .lift,
+  .press {
+    transition: none;
+  }
+
+  .lift:hover,
+  .press:hover {
+    transform: none;
+  }
+
+  .float,
+  .float-slow {
+    animation: none;
+  }
+}
+
+body {
+  background-color: #fefefe;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/*
+  The design leans on very tight display tracking for the big headings.
+  Applied as a utility so every section headline stays consistent.
+*/
+@utility heading-tight {
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
