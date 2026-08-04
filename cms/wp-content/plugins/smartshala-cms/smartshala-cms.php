@@ -3,7 +3,7 @@
  * Plugin Name:       SmartShala CMS
  * Plugin URI:        https://letssmartshala.com
  * Description:       Headless content management for the SmartShala site. Every page is broken into sections, and every piece of text, image and link in those sections is editable here and served over the REST API.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Site ON Lab
@@ -25,7 +25,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SMARTSHALA_VERSION', '1.2.0' );
+define( 'SMARTSHALA_VERSION', '1.3.0' );
 define( 'SMARTSHALA_FILE', __FILE__ );
 define( 'SMARTSHALA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SMARTSHALA_URL', plugin_dir_url( __FILE__ ) );
@@ -52,27 +52,51 @@ add_action( 'init', function () {
 }, 1 );
 
 /**
- * The frontend is served from a different origin during development (Vite on
- * :5173), so the REST API has to allow it explicitly. Read endpoints only —
- * writes still require a logged-in WordPress user and a nonce.
+ * CORS.
+ *
+ * WordPress core already echoes the requesting origin back for REST responses
+ * (see rest_send_cors_headers), which is what makes a headless setup work from
+ * any deployment host — Vite locally, Vercel previews, the live domain.
+ *
+ * An earlier version of this plugin removed that core handler and replaced it
+ * with a hardcoded localhost allowlist. That silently broke every deployed
+ * environment: the API answered fine, but the browser discarded the response
+ * for want of a header and the site rendered empty. Do not do that again.
+ *
+ * If the API ever needs locking to specific origins, set the
+ * `smartshala_frontend_origins` option to a whitespace or comma separated list
+ * and this takes over. Left empty, core's default applies — which is right for
+ * public marketing content.
  */
 add_action( 'rest_api_init', function () {
+	$configured = trim( (string) get_option( 'smartshala_frontend_origins', '' ) );
+
+	// Nothing configured: leave core alone. Any origin may read, which is the
+	// WordPress default and correct for a public headless site.
+	if ( '' === $configured ) {
+		return;
+	}
+
+	$allowed = array();
+	foreach ( preg_split( '/[\s,]+/', $configured ) as $origin ) {
+		$origin = trim( $origin );
+		if ( '' !== $origin ) {
+			$allowed[] = untrailingslashit( $origin );
+		}
+	}
+
 	remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
 
-	add_filter( 'rest_pre_serve_request', function ( $value ) {
-		$origin  = get_http_origin();
-		$allowed = apply_filters( 'smartshala_allowed_origins', array(
-			'http://localhost:5173',
-			'http://127.0.0.1:5173',
-			'http://localhost:4173',
-		) );
+	add_filter( 'rest_pre_serve_request', function ( $value ) use ( $allowed ) {
+		$origin = get_http_origin();
 
-		if ( $origin && in_array( $origin, $allowed, true ) ) {
-			header( 'Access-Control-Allow-Origin: ' . esc_url_raw( $origin ) );
-			header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
+		if ( $origin && in_array( untrailingslashit( $origin ), $allowed, true ) ) {
+			header( 'Access-Control-Allow-Origin: ' . sanitize_url( $origin ) );
+			header( 'Access-Control-Allow-Methods: OPTIONS, GET, POST' );
 			header( 'Access-Control-Allow-Credentials: true' );
-			header( 'Vary: Origin' );
 		}
+
+		header( 'Vary: Origin', false );
 
 		return $value;
 	} );
