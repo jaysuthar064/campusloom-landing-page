@@ -3,7 +3,7 @@
  * Plugin Name:       SmartShala CMS
  * Plugin URI:        https://letssmartshala.com
  * Description:       Headless content management for the SmartShala site. Every page is broken into sections, and every piece of text, image and link in those sections is editable here and served over the REST API.
- * Version:           1.3.0
+ * Version:           1.4.0
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Site ON Lab
@@ -25,7 +25,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SMARTSHALA_VERSION', '1.3.0' );
+define( 'SMARTSHALA_VERSION', '1.4.0' );
 define( 'SMARTSHALA_FILE', __FILE__ );
 define( 'SMARTSHALA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SMARTSHALA_URL', plugin_dir_url( __FILE__ ) );
@@ -35,6 +35,7 @@ require_once SMARTSHALA_DIR . 'includes/class-smartshala-store.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-admin.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-rest.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-leads.php';
+require_once SMARTSHALA_DIR . 'includes/class-smartshala-settings.php';
 
 /**
  * Boot on `init`, not `plugins_loaded`.
@@ -49,6 +50,7 @@ add_action( 'init', function () {
 	SmartShala_Admin::boot();
 	SmartShala_REST::boot();
 	SmartShala_Leads::boot();
+	SmartShala_Settings::boot();
 }, 1 );
 
 /**
