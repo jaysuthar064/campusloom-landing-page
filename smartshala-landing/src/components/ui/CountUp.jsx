@@ -9,6 +9,11 @@ import { useEffect, useRef, useState } from 'react'
  *
  * Decimal places are taken from the source so "99.9%" counts in tenths rather
  * than snapping from 99 to 99.9 at the end.
+ *
+ * Note the effect depends on `value`, not on the parsed match. The match is a
+ * new array on every render, so depending on it made the effect tear down and
+ * restart on each animation frame — the number would creep up a frame at a
+ * time and never arrive.
  */
 const PATTERN = /^(\D*?)([\d,]+(?:\.\d+)?)(.*)$/s
 
@@ -19,14 +24,22 @@ export default function CountUp({ value, duration = 1400, className = '' }) {
   const ref = useRef(null)
   const [display, setDisplay] = useState(null)
 
-  const match = PATTERN.exec(String(value ?? ''))
-
   useEffect(() => {
     const node = ref.current
-    if (!node || !match) return
+    if (!node) return
+
+    const match = PATTERN.exec(String(value ?? ''))
+    if (!match) return
 
     const target = parseFloat(match[2].replace(/,/g, ''))
     if (!Number.isFinite(target)) return
+
+    if (
+      typeof IntersectionObserver === 'undefined' ||
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
 
     const decimals = (match[2].split('.')[1] ?? '').length
     const grouped = match[2].includes(',')
@@ -36,22 +49,20 @@ export default function CountUp({ value, duration = 1400, className = '' }) {
       return grouped ? Number(fixed).toLocaleString('en-IN') : fixed
     }
 
-    if (
-      typeof IntersectionObserver === 'undefined' ||
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return
-    }
-
     let frame = 0
     let start = 0
 
     const step = (now) => {
       if (!start) start = now
       const progress = Math.min((now - start) / duration, 1)
-      setDisplay(format(target * easeOut(progress)))
+
       if (progress < 1) {
+        setDisplay(format(target * easeOut(progress)))
         frame = requestAnimationFrame(step)
+      } else {
+        // Land on the source text so the final value is exact, whatever the
+        // formatting was.
+        setDisplay(match[2])
       }
     }
 
@@ -71,7 +82,9 @@ export default function CountUp({ value, duration = 1400, className = '' }) {
       cancelAnimationFrame(frame)
       observer.disconnect()
     }
-  }, [match, duration])
+  }, [value, duration])
+
+  const match = PATTERN.exec(String(value ?? ''))
 
   if (!match) {
     return <span className={className}>{value}</span>
