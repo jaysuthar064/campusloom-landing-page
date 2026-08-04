@@ -1,6 +1,7 @@
 import Container from '../ui/Container'
 import Icon from '../ui/Icon'
 import SectionHeading from '../ui/SectionHeading'
+import CountUp from '../ui/CountUp'
 
 /**
  * Section 03 — Trust & stats.
@@ -69,13 +70,14 @@ export default function TrustStats({ content }) {
                 key={`${stat.label}-${i}`}
                 className="lift flex items-center gap-4 rounded-2xl bg-tint/70 px-6 py-6"
               >
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
+                <span className="icon-pop flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
                   <Icon name={stat.icon} size={26} />
                 </span>
                 <span>
-                  <span className="block text-[30px] leading-none font-bold text-brand">
-                    {stat.value}
-                  </span>
+                  <CountUp
+                    value={stat.value}
+                    className="block text-[30px] leading-none font-bold text-brand"
+                  />
                   <span className="mt-1.5 block text-[15px] font-medium text-ink">
                     {stat.label}
                   </span>

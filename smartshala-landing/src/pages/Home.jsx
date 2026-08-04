@@ -11,6 +11,7 @@ import Faq from '../components/sections/Faq'
 import FinalCta from '../components/sections/FinalCta'
 import Footer from '../components/layout/Footer'
 import Reveal from '../components/ui/Reveal'
+import ScrollProgress from '../components/ui/ScrollProgress'
 
 /**
  * The home page.
@@ -46,6 +47,7 @@ export default function Home() {
 
   return (
     <>
+      <ScrollProgress />
       <Navbar content={sections.navbar} />
       <main>
         {/* The hero is above the fold — revealing it would flash on load. */}

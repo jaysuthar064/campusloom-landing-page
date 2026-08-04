@@ -1,4 +1,5 @@
 import Icon from './Icon'
+import TextReveal from './TextReveal'
 
 /**
  * The heading block used by nearly every section: a small pill, a two-line
@@ -36,7 +37,7 @@ export default function SectionHeading({
           eyebrow ? 'mt-6' : ''
         }`}
       >
-        {line1 ? <span className="block">{line1}</span> : null}
+        {line1 ? <TextReveal as="span" text={line1} className="block" /> : null}
 
         {highlight || line2 ? (
           <span className="block">

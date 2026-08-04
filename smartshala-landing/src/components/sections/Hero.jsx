@@ -1,5 +1,6 @@
 import Container from '../ui/Container'
 import Icon from '../ui/Icon'
+import TextReveal from '../ui/TextReveal'
 import SmartLink from '../ui/SmartLink'
 
 /**
@@ -67,9 +68,11 @@ export default function Hero({ content }) {
           {/* ---------------- Left ---------------- */}
           <div>
             <h1 className="heading-tight text-[46px] font-bold text-ink sm:text-[60px] lg:text-[74px]">
-              {line1 ? <span className="block">{line1}</span> : null}
-              {line2 ? <span className="block">{line2}</span> : null}
-              {highlight ? <span className="block text-brand">{highlight}</span> : null}
+              {line1 ? <TextReveal as="span" text={line1} className="block" /> : null}
+              {line2 ? <TextReveal as="span" text={line2} delay={90} className="block" /> : null}
+              {highlight ? (
+                <TextReveal as="span" text={highlight} delay={180} className="block text-brand" />
+              ) : null}
             </h1>
 
             {subheading ? (

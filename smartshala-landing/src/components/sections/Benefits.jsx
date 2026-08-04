@@ -43,7 +43,7 @@ export default function Benefits({ content }) {
                 key={`${item.title}-${i}`}
                 className="lift flex gap-5 rounded-2xl bg-white/85 p-7 shadow-[0_20px_50px_-30px_rgba(8,8,15,0.35)]"
               >
-                <span className="flex h-[62px] w-[62px] shrink-0 items-center justify-center rounded-full bg-brand-soft/70 text-brand">
+                <span className="icon-pop flex h-[62px] w-[62px] shrink-0 items-center justify-center rounded-full bg-brand-soft/70 text-brand">
                   <Icon name={item.icon} size={28} />
                 </span>
 

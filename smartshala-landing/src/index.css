@@ -130,6 +130,99 @@ html {
   animation-delay: -4.6s;
 }
 
+/* ---------------------------------------------------------------------------
+   Text reveal
+
+   Headings animate in a word at a time. Each word sits in its own inline-block
+   so the transform does not disturb line wrapping, and the stagger delay is set
+   per word from JS. See components/ui/TextReveal.jsx.
+--------------------------------------------------------------------------- */
+.text-reveal > span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.45em);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 0.7, 0.28, 1),
+    transform 0.6s cubic-bezier(0.22, 0.7, 0.28, 1);
+  will-change: opacity, transform;
+}
+
+.text-reveal.is-visible > span {
+  opacity: 1;
+  transform: none;
+}
+
+/* Nav links: underline grows from the left on hover */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.32s cubic-bezier(0.22, 0.7, 0.28, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Buttons with a trailing arrow: the arrow eases forward on hover */
+.press svg:last-child {
+  transition: transform 0.28s cubic-bezier(0.22, 0.7, 0.28, 1);
+}
+
+.press:hover svg:last-child {
+  transform: translateX(4px);
+}
+
+/* Card icons lift slightly with their card */
+.lift .icon-pop {
+  transition: transform 0.35s cubic-bezier(0.22, 0.7, 0.28, 1);
+}
+
+.lift:hover .icon-pop {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* Reading-progress bar pinned to the top of the viewport */
+.scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  height: 2.5px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--color-brand), #4d84ff);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-reveal > span {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .nav-link::after,
+  .press svg:last-child,
+  .lift .icon-pop {
+    transition: none;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

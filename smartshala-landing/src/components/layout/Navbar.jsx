@@ -63,7 +63,7 @@ function DesktopItem({ item }) {
     return (
       <SmartLink
         to={item.url || '#'}
-        className="flex items-center gap-1 text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
+        className="nav-link flex items-center gap-1 text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
       >
         {item.label}
       </SmartLink>
@@ -76,7 +76,7 @@ function DesktopItem({ item }) {
         to={item.url || '#'}
         aria-expanded={open}
         onFocus={show}
-        className="group flex items-center gap-1 text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
+        className="nav-link group flex items-center gap-1 text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
       >
         {item.label}
         <ChevronDown
@@ -163,9 +163,11 @@ export default function Navbar({ content }) {
       }`}
     >
       <Container>
-        {/* 147px tall on desktop — confirmed by the logo mark's y-position in
-            the artboard (51–96px), which only centres inside that height. */}
-        <div className="flex h-19 items-center gap-6 lg:h-36.75">
+        {/* The artboard is 147px tall with the menu left-of-centre. Reduced to
+            112px and the menu centred, at the client's request. The 1fr/auto/1fr
+            grid is what centres it: the middle column sits in the middle of the
+            container no matter how wide the logo or the actions are. */}
+        <div className="flex h-19 items-center justify-between gap-6 lg:grid lg:h-28 lg:grid-cols-[1fr_auto_1fr]">
           <SmartLink
             to={content?.logo?.url || '/'}
             className="shrink-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
@@ -174,10 +176,8 @@ export default function Navbar({ content }) {
             <Logo logo={content?.logo} />
           </SmartLink>
 
-          {/* The design sits the menu close to the logo with the actions pushed
-              to the far right — not evenly distributed. mr-auto reproduces that. */}
           <nav
-            className="mr-auto hidden items-center gap-9 lg:ml-6 lg:flex xl:ml-27"
+            className="hidden items-center justify-center gap-9 lg:flex"
             aria-label="Main"
           >
             {menu.map((item, i) => (
@@ -185,11 +185,11 @@ export default function Navbar({ content }) {
             ))}
           </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-7 lg:flex">
+          <div className="ml-auto hidden shrink-0 items-center justify-end gap-7 lg:flex">
             {login?.label ? (
               <SmartLink
                 to={login.url || '#'}
-                className="text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
+                className="nav-link text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
               >
                 {login.label}
               </SmartLink>

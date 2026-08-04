@@ -1,6 +1,7 @@
 import { usePageContent } from '../../lib/usePageContent'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import ScrollProgress from '../ui/ScrollProgress'
 
 /**
  * Chrome shared by every inner page.
@@ -39,6 +40,7 @@ export default function PageShell({ page, children }) {
 
   return (
     <>
+      <ScrollProgress />
       <Navbar content={home?.navbar} />
       <main>{children(sections)}</main>
       <Footer content={home?.footer} />

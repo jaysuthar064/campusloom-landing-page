@@ -31,7 +31,7 @@ export default function Features({ content }) {
                 key={`${item.title}-${i}`}
                 className="lift rounded-2xl border border-hairline/70 bg-white p-6 hover:border-brand/30"
               >
-                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-tint text-brand">
+                <span className="icon-pop mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-tint text-brand">
                   <Icon name={item.icon} size={23} />
                 </span>
                 <h3 className="text-[16.5px] font-semibold text-ink">{item.title}</h3>
