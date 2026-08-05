@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
  * navigate client-side (no full reload) while everything else stays a plain
  * anchor, with external links getting the usual rel hardening.
  */
-export default function SmartLink({ to, children, ...rest }) {
+export default function SmartLink({ to, children, target, ...rest }) {
   const href = to || '#'
 
   const isExternal = /^(https?:)?\/\//i.test(href)
@@ -16,8 +16,17 @@ export default function SmartLink({ to, children, ...rest }) {
   const isAnchor = href.startsWith('#')
 
   if (isExternal) {
+    // New tab by default so the marketing site is not lost, but callers can
+    // override — "Log In" should take you to the app, not leave a stale tab.
+    const resolved = target ?? '_blank'
+
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+      <a
+        href={href}
+        target={resolved}
+        rel={resolved === '_blank' ? 'noopener noreferrer' : undefined}
+        {...rest}
+      >
         {children}
       </a>
     )

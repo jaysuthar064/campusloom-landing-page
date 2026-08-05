@@ -189,6 +189,7 @@ export default function Navbar({ content }) {
             {login?.label ? (
               <SmartLink
                 to={login.url || '#'}
+                target="_self"
                 className="nav-link text-[15.5px] font-medium text-ink/85 transition-colors hover:text-brand"
               >
                 {login.label}
@@ -280,6 +281,7 @@ export default function Navbar({ content }) {
             {login?.label ? (
               <SmartLink
                 to={login.url || '#'}
+                target="_self"
                 className="inline-flex h-12 items-center justify-center rounded-xl border border-hairline text-[15.5px] font-semibold text-ink"
               >
                 {login.label}

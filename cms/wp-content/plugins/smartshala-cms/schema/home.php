@@ -94,11 +94,8 @@ return array(
 							'id'      => 'url',
 							'type'    => 'url',
 							'label'   => __( 'Links to', 'smartshala' ),
-							// PLACEHOLDER — this must point at the live ERP sign-in.
-							// Taken from Landing_Page_Integration_Analysis.md; confirm
-							// the real domain before launch.
-							'help'    => __( 'PLACEHOLDER — set this to your live ERP sign-in URL before launch.', 'smartshala' ),
-							'default' => 'https://campus-loom.vercel.app/login',
+							'help'    => __( 'The SmartShala app sign-in. Opens in the same tab, since people clicking Log In mean to leave the marketing site.', 'smartshala' ),
+							'default' => 'https://app.letssmartshala.com/login',
 						),
 					),
 				),
