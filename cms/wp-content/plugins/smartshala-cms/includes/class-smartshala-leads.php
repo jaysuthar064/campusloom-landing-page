@@ -126,10 +126,19 @@ class SmartShala_Leads {
 
 		$kind = '' !== $data['source'] ? $data['source'] : 'Enquiry';
 
+		/*
+		 * Reply-To is set to the enquirer, so hitting reply in the inbox goes
+		 * straight back to the school rather than to the site's own address.
+		 * The From address is left alone — rewriting it to the visitor's domain
+		 * would fail SPF and land the notification in spam.
+		 */
+		$headers = array( 'Reply-To: ' . $data['name'] . ' <' . $data['email'] . '>' );
+
 		wp_mail(
-			get_option( 'admin_email' ),
+			SmartShala_Settings::recipients(),
 			sprintf( '[SmartShala] %s — %s', $kind, $data['school'] ),
-			implode( "\n", $lines )
+			implode( "\n", $lines ),
+			$headers
 		);
 
 		return rest_ensure_response( array( 'ok' => true, 'id' => $post_id ) );

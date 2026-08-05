@@ -11,6 +11,7 @@ import FaqsPage from './pages/FaqsPage'
 import HelpPage from './pages/HelpPage'
 import LegalPage from './pages/LegalPage'
 import NotFoundPage from './pages/NotFoundPage'
+import SmoothScroll from './components/ui/SmoothScroll'
 
 /** Client-side navigation should land at the top, not keep the old scroll. */
 function ScrollToTop() {
@@ -27,6 +28,7 @@ function ScrollToTop() {
 export default function App() {
   return (
     <>
+      <SmoothScroll />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />

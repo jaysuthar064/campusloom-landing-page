@@ -16,10 +16,37 @@ class SmartShala_Settings {
 	const CAPABILITY = 'manage_options';
 	const SLUG       = 'smartshala-settings';
 	const OPTION     = 'smartshala_frontend_origins';
+	const RECIPIENTS = 'smartshala_lead_recipients';
+
+	/**
+	 * Where demo and contact submissions are emailed.
+	 *
+	 * Falls back to the WordPress admin email so notifications are never
+	 * silently lost just because nobody filled this in.
+	 *
+	 * @return string[]
+	 */
+	public static function recipients() {
+		$saved = array();
+
+		foreach ( preg_split( '/[\r\n,]+/', (string) get_option( self::RECIPIENTS, '' ) ) as $email ) {
+			$email = sanitize_email( trim( $email ) );
+			if ( $email && is_email( $email ) ) {
+				$saved[] = $email;
+			}
+		}
+
+		if ( $saved ) {
+			return array_values( array_unique( $saved ) );
+		}
+
+		return array( get_option( 'admin_email' ) );
+	}
 
 	public static function boot() {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ), 20 );
 		add_action( 'admin_post_smartshala_save_settings', array( __CLASS__, 'handle_save' ) );
+		add_action( 'admin_post_smartshala_save_emails', array( __CLASS__, 'handle_save_emails' ) );
 	}
 
 	public static function menu() {
@@ -147,6 +174,58 @@ class SmartShala_Settings {
 			</div>
 
 			<div class="smartshala-panel" style="margin-top:18px;max-width:820px;">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="smartshala_save_emails">
+					<?php wp_nonce_field( 'smartshala_save_emails' ); ?>
+
+					<header class="smartshala-panel__head">
+						<h2><?php esc_html_e( 'Form notifications', 'smartshala' ); ?></h2>
+						<p class="description">
+							<?php esc_html_e( 'Where demo requests and contact messages are emailed. Every submission is also saved under Demo Requests, so nothing is lost if email fails.', 'smartshala' ); ?>
+						</p>
+					</header>
+
+					<div class="smartshala-field">
+						<label class="smartshala-label" for="smartshala-recipients">
+							<?php esc_html_e( 'Send submissions to', 'smartshala' ); ?>
+						</label>
+
+						<textarea
+							id="smartshala-recipients"
+							name="lead_recipients"
+							rows="3"
+							class="large-text code"
+							spellcheck="false"
+							placeholder="sales@letssmartshala.com&#10;principal@letssmartshala.com"
+						><?php echo esc_textarea( (string) get_option( self::RECIPIENTS, '' ) ); ?></textarea>
+
+						<p class="description">
+							<?php
+							printf(
+								/* translators: %s: email address currently receiving notifications */
+								esc_html__( 'One address per line. Leave empty to use the site admin address (%s).', 'smartshala' ),
+								esc_html( get_option( 'admin_email' ) )
+							);
+							?>
+						</p>
+					</div>
+
+					<div class="smartshala-field">
+						<p style="margin:0;padding:12px 14px;border-radius:8px;background:#f0f4ff;border:1px solid #c3d3fb;">
+							<strong><?php esc_html_e( 'Currently sending to:', 'smartshala' ); ?></strong>
+							<?php echo esc_html( implode( ', ', self::recipients() ) ); ?>
+						</p>
+					</div>
+
+					<p class="smartshala-actions">
+						<button type="submit" class="button button-primary button-hero">
+							<?php esc_html_e( 'Save notification emails', 'smartshala' ); ?>
+						</button>
+					</p>
+				</form>
+			</div>
+
+			<div class="smartshala-panel" style="margin-top:18px;max-width:820px;">
 				<header class="smartshala-panel__head">
 					<h2><?php esc_html_e( 'API address', 'smartshala' ); ?></h2>
 					<p class="description">
@@ -187,6 +266,35 @@ class SmartShala_Settings {
 		$origins = self::parse( $raw );
 
 		update_option( self::OPTION, implode( "\n", $origins ), false );
+
+		wp_safe_redirect( add_query_arg(
+			array(
+				'page'    => self::SLUG,
+				'updated' => 1,
+			),
+			admin_url( 'admin.php' )
+		) );
+		exit;
+	}
+
+	public static function handle_save_emails() {
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_die( esc_html__( 'You are not allowed to change these settings.', 'smartshala' ) );
+		}
+
+		check_admin_referer( 'smartshala_save_emails' );
+
+		$raw   = isset( $_POST['lead_recipients'] ) ? wp_unslash( $_POST['lead_recipients'] ) : '';
+		$clean = array();
+
+		foreach ( preg_split( '/[\r\n,]+/', (string) $raw ) as $email ) {
+			$email = sanitize_email( trim( $email ) );
+			if ( $email && is_email( $email ) ) {
+				$clean[] = $email;
+			}
+		}
+
+		update_option( self::RECIPIENTS, implode( "\n", array_unique( $clean ) ), false );
 
 		wp_safe_redirect( add_query_arg(
 			array(
