@@ -17,6 +17,55 @@ class SmartShala_Settings {
 	const SLUG       = 'smartshala-settings';
 	const OPTION     = 'smartshala_frontend_origins';
 	const RECIPIENTS = 'smartshala_lead_recipients';
+	const FROM_EMAIL = 'smartshala_mail_from';
+	const FROM_NAME  = 'smartshala_mail_from_name';
+
+	/**
+	 * The address notifications are sent *from*.
+	 *
+	 * This must be on a domain you control. Sending as the visitor's address
+	 * would fail SPF and land the mail in spam — that is what Reply-To is for.
+	 *
+	 * WordPress's own default is wordpress@<host>, which PHPMailer rejects
+	 * outright when the host has no dot in it (localhost), so the fallback here
+	 * ends on the admin address rather than something undeliverable.
+	 */
+	public static function from_address() {
+		$saved = sanitize_email( (string) get_option( self::FROM_EMAIL, '' ) );
+		if ( $saved && is_email( $saved ) ) {
+			return $saved;
+		}
+
+		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		$host = preg_replace( '~^www\.~i', '', $host );
+
+		if ( $host && str_contains( $host, '.' ) ) {
+			return 'noreply@' . $host;
+		}
+
+		return (string) get_option( 'admin_email' );
+	}
+
+	public static function from_name() {
+		$saved = trim( (string) get_option( self::FROM_NAME, '' ) );
+		return '' !== $saved ? $saved : (string) get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Is anything actually taking charge of delivery?
+	 *
+	 * SMTP plugins all work by hooking one of these. If none is present,
+	 * WordPress falls back to the server's mail function and deliverability is
+	 * whatever the host happens to give you.
+	 */
+	public static function has_smtp() {
+		foreach ( array( 'phpmailer_init', 'pre_wp_mail' ) as $hook ) {
+			if ( has_filter( $hook ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Where demo and contact submissions are emailed.
@@ -211,11 +260,53 @@ class SmartShala_Settings {
 					</div>
 
 					<div class="smartshala-field">
-						<p style="margin:0;padding:12px 14px;border-radius:8px;background:#f0f4ff;border:1px solid #c3d3fb;">
-							<strong><?php esc_html_e( 'Currently sending to:', 'smartshala' ); ?></strong>
-							<?php echo esc_html( implode( ', ', self::recipients() ) ); ?>
+						<label class="smartshala-label" for="smartshala-from-name">
+							<?php esc_html_e( 'Send from — name', 'smartshala' ); ?>
+						</label>
+						<input
+							type="text"
+							id="smartshala-from-name"
+							name="mail_from_name"
+							class="large-text"
+							value="<?php echo esc_attr( (string) get_option( self::FROM_NAME, '' ) ); ?>"
+							placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+						>
+					</div>
+
+					<div class="smartshala-field">
+						<label class="smartshala-label" for="smartshala-from-email">
+							<?php esc_html_e( 'Send from — address', 'smartshala' ); ?>
+						</label>
+						<input
+							type="email"
+							id="smartshala-from-email"
+							name="mail_from"
+							class="large-text code"
+							value="<?php echo esc_attr( (string) get_option( self::FROM_EMAIL, '' ) ); ?>"
+							placeholder="noreply@letssmartshala.com"
+						>
+						<p class="description">
+							<?php esc_html_e( 'Must be on a domain you control, or the mail will be treated as spoofed and land in spam. Replies still go to the enquirer — every notification carries their address as Reply-To.', 'smartshala' ); ?>
 						</p>
 					</div>
+
+					<div class="smartshala-field">
+						<p style="margin:0;padding:12px 14px;border-radius:8px;background:#f0f4ff;border:1px solid #c3d3fb;">
+							<strong><?php esc_html_e( 'Currently sending to:', 'smartshala' ); ?></strong>
+							<?php echo esc_html( implode( ', ', self::recipients() ) ); ?><br>
+							<strong><?php esc_html_e( 'From:', 'smartshala' ); ?></strong>
+							<?php echo esc_html( sprintf( '%s <%s>', self::from_name(), self::from_address() ) ); ?>
+						</p>
+					</div>
+
+					<?php if ( ! self::has_smtp() ) : ?>
+						<div class="smartshala-field">
+							<p style="margin:0;padding:12px 14px;border-radius:8px;background:#fff8e5;border:1px solid #f0d68a;">
+								<strong><?php esc_html_e( 'No SMTP plugin detected.', 'smartshala' ); ?></strong><br>
+								<?php esc_html_e( 'WordPress will hand these to the server\'s own mail function, which usually has no SPF or DKIM for your domain — messages get spam-foldered or dropped, silently. Install an SMTP plugin such as FluentSMTP and point it at the service that runs your email.', 'smartshala' ); ?>
+							</p>
+						</div>
+					<?php endif; ?>
 
 					<p class="smartshala-actions">
 						<button type="submit" class="button button-primary button-hero">
@@ -295,6 +386,12 @@ class SmartShala_Settings {
 		}
 
 		update_option( self::RECIPIENTS, implode( "\n", array_unique( $clean ) ), false );
+
+		$from = sanitize_email( wp_unslash( $_POST['mail_from'] ?? '' ) );
+		update_option( self::FROM_EMAIL, is_email( $from ) ? $from : '', false );
+
+		$from_name = sanitize_text_field( wp_unslash( $_POST['mail_from_name'] ?? '' ) );
+		update_option( self::FROM_NAME, $from_name, false );
 
 		wp_safe_redirect( add_query_arg(
 			array(

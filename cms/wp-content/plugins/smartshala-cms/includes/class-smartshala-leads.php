@@ -134,12 +134,34 @@ class SmartShala_Leads {
 		 */
 		$headers = array( 'Reply-To: ' . $data['name'] . ' <' . $data['email'] . '>' );
 
-		wp_mail(
+		/*
+		 * Set From only around our own send, rather than filtering globally.
+		 * A global filter would rewrite every WordPress email and would fight
+		 * an SMTP plugin that has its own From configured.
+		 */
+		$from       = function () { return SmartShala_Settings::from_address(); };
+		$from_name  = function () { return SmartShala_Settings::from_name(); };
+
+		add_filter( 'wp_mail_from', $from );
+		add_filter( 'wp_mail_from_name', $from_name );
+
+		$sent = wp_mail(
 			SmartShala_Settings::recipients(),
 			sprintf( '[SmartShala] %s — %s', $kind, $data['school'] ),
 			implode( "\n", $lines ),
 			$headers
 		);
+
+		remove_filter( 'wp_mail_from', $from );
+		remove_filter( 'wp_mail_from_name', $from_name );
+
+		/*
+		 * Record whether the notification actually went out. The submission is
+		 * already saved either way, but a silent mail failure means nobody
+		 * finds out about an enquiry until they happen to check this screen —
+		 * so it is surfaced in the Demo Requests list instead.
+		 */
+		update_post_meta( $post_id, '_ss_mail_sent', $sent ? '1' : '0' );
 
 		return rest_ensure_response( array( 'ok' => true, 'id' => $post_id ) );
 	}
@@ -153,11 +175,25 @@ class SmartShala_Leads {
 			'ss_city'  => __( 'City', 'smartshala' ),
 			'ss_size'  => __( 'Students', 'smartshala' ),
 			'ss_src'   => __( 'From', 'smartshala' ),
+			'ss_mail'  => __( 'Notified', 'smartshala' ),
 			'date'     => __( 'Received', 'smartshala' ),
 		);
 	}
 
 	public static function column( $column, $post_id ) {
+		if ( 'ss_mail' === $column ) {
+			$sent = get_post_meta( $post_id, '_ss_mail_sent', true );
+
+			if ( '1' === $sent ) {
+				echo '<span style="color:#1a7f37;">' . esc_html__( 'sent', 'smartshala' ) . '</span>';
+			} elseif ( '0' === $sent ) {
+				echo '<strong style="color:#b32d2e;">' . esc_html__( 'FAILED', 'smartshala' ) . '</strong>';
+			} else {
+				echo '<span style="color:#8c8f94;">&mdash;</span>';
+			}
+			return;
+		}
+
 		$map = array(
 			'ss_email' => '_ss_email',
 			'ss_phone' => '_ss_phone',
