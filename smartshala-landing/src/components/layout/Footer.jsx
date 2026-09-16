@@ -67,7 +67,46 @@ function LinkColumn({ column }) {
 export default function Footer({ content }) {
   if (!content) return null
 
+  const colProduct = {
+    ...content.col_product,
+    links: (content.col_product?.links ?? []).filter((l) => l.label !== 'Modules'),
+  }
+
+  const colCompany = {
+    ...content.col_company,
+    links: (content.col_company?.links ?? []).filter((l) => l.label !== 'Pricing'),
+  }
+
+  const rawResourceLinks = (content.col_resources?.links ?? []).filter((l) => l.label !== 'Help Center')
+  const hasBlog = rawResourceLinks.some((l) => l.label === 'Blog')
+  const colResources = {
+    ...content.col_resources,
+    links: hasBlog ? rawResourceLinks : [{ label: 'Blog', url: '/blog' }, ...rawResourceLinks],
+  }
+
+  const contactEmail =
+    content.contact?.email === 'hello@letssmartshala.com' || !content.contact?.email
+      ? 'support@letssmartshala.com'
+      : content.contact.email
+
+  const contactCompany =
+    content.contact?.company === 'SmartShala Technologies Pvt. Ltd.' || !content.contact?.company
+      ? 'Hybrid Monks LLP'
+      : content.contact.company
+
   const contact = content.contact
+    ? {
+        ...content.contact,
+        email: contactEmail,
+        company: contactCompany,
+      }
+    : null
+
+  const copyright =
+    content.copyright && !content.copyright.includes('Technologies') && !content.copyright.includes('Built for Modern Schools')
+      ? content.copyright
+      : '@2026 Smart Shala (Product by Hybrid Monks LLP), All Rights Reserved'
+
   const band = content.cta_band
   const modules = content.modules ?? []
 
@@ -128,9 +167,9 @@ export default function Footer({ content }) {
 
         {/* Columns */}
         <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <LinkColumn column={content.col_product} />
-          <LinkColumn column={content.col_company} />
-          <LinkColumn column={content.col_resources} />
+          <LinkColumn column={colProduct} />
+          <LinkColumn column={colCompany} />
+          <LinkColumn column={colResources} />
 
           {contact?.title ? (
             <div>
@@ -210,7 +249,7 @@ export default function Footer({ content }) {
 
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-5 border-t border-hairline pt-7 sm:flex-row">
-          <p className="text-[14px] text-muted">{content.copyright}</p>
+          <p className="text-[14px] text-muted">{copyright}</p>
 
           {socials.length ? (
             <ul className="flex items-center gap-3">

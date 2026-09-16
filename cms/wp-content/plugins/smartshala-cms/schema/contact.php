@@ -61,7 +61,7 @@ return array(
 					),
 					'default'   => array(
 						array( 'icon' => 'phone', 'title' => 'Call us', 'value' => '+91 98765 43210', 'url' => 'tel:+919876543210' ),
-						array( 'icon' => 'mail', 'title' => 'Email us', 'value' => 'hello@letssmartshala.com', 'url' => 'mailto:hello@letssmartshala.com' ),
+						array( 'icon' => 'mail', 'title' => 'Email us', 'value' => 'support@letssmartshala.com', 'url' => 'mailto:support@letssmartshala.com' ),
 						array( 'icon' => 'message-circle', 'title' => 'WhatsApp', 'value' => '+91 98765 43210', 'url' => 'https://wa.me/919876543210' ),
 						array( 'icon' => 'map-pin', 'title' => 'Office', 'value' => 'Ahmedabad, Gujarat, India – 380015', 'url' => '' ),
 					),

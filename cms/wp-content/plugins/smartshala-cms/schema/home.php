@@ -77,10 +77,8 @@ return array(
 					),
 					'default'   => array(
 						array( 'label' => 'Features',  'url' => '/features',  'has_dropdown' => true ),
-						array( 'label' => 'Modules',   'url' => '/modules',   'has_dropdown' => true ),
-						array( 'label' => 'Pricing',   'url' => '/pricing',   'has_dropdown' => false ),
 						array( 'label' => 'Resources', 'url' => '/faqs',      'has_dropdown' => true ),
-						array( 'label' => 'Company',   'url' => '/about',     'has_dropdown' => true ),
+						array( 'label' => 'Company',   'url' => '/about',     'has_dropdown' => false ),
 					),
 				),
 
@@ -89,7 +87,7 @@ return array(
 					'type'   => 'group',
 					'label'  => __( 'Log in link', 'smartshala' ),
 					'fields' => array(
-						array( 'id' => 'label', 'type' => 'text', 'label' => __( 'Label', 'smartshala' ), 'default' => 'Log In' ),
+						array( 'id' => 'label', 'type' => 'text', 'label' => __( 'Label', 'smartshala' ), 'default' => '' ),
 						array(
 							'id'      => 'url',
 							'type'    => 'url',
@@ -679,7 +677,7 @@ return array(
 							'role'     => 'Principal',
 							'rating'   => '5',
 							'quote'    => 'SmartShala has simplified how we manage our school. It saves time, reduces paperwork and helps us focus on what truly matters – students.',
-							'school'   => 'Sunrise International School',
+							'school'   => '',
 							'location' => 'Jaipur, Rajasthan',
 						),
 						array(
@@ -687,7 +685,7 @@ return array(
 							'role'     => 'Principal',
 							'rating'   => '5',
 							'quote'    => 'The fee management and real-time reports are excellent. Communication with parents has never been easier and more effective.',
-							'school'   => 'Greenfield Public School',
+							'school'   => '',
 							'location' => 'Bengaluru, Karnataka',
 						),
 						array(
@@ -695,7 +693,7 @@ return array(
 							'role'     => 'Principal',
 							'rating'   => '5',
 							'quote'    => 'SmartShala is user-friendly, reliable and packed with everything a modern school needs. Highly recommended for every school leader.',
-							'school'   => 'Bright Future Academy',
+							'school'   => '',
 							'location' => 'Lucknow, Uttar Pradesh',
 						),
 					),
@@ -870,7 +868,6 @@ return array(
 							),
 							'default'   => array(
 								array( 'label' => 'Features', 'url' => '/features' ),
-								array( 'label' => 'Modules', 'url' => '/modules' ),
 								array( 'label' => 'Attendance', 'url' => '/features' ),
 								array( 'label' => 'Fee Management', 'url' => '/features' ),
 								array( 'label' => 'Reports', 'url' => '/features' ),
@@ -897,7 +894,6 @@ return array(
 							),
 							'default'   => array(
 								array( 'label' => 'About', 'url' => '/about' ),
-								array( 'label' => 'Pricing', 'url' => '/pricing' ),
 								array( 'label' => 'Book Demo', 'url' => '/book-demo' ),
 								array( 'label' => 'Contact', 'url' => '/contact' ),
 							),
@@ -922,7 +918,7 @@ return array(
 								array( 'id' => 'url', 'type' => 'url', 'label' => __( 'Links to', 'smartshala' ), 'default' => '#' ),
 							),
 							'default'   => array(
-								array( 'label' => 'Help Center', 'url' => '/help' ),
+								array( 'label' => 'Blog', 'url' => '/blog' ),
 								array( 'label' => 'FAQs', 'url' => '/faqs' ),
 								array( 'label' => 'Privacy Policy', 'url' => '/privacy' ),
 								array( 'label' => 'Terms', 'url' => '/terms' ),
@@ -938,9 +934,9 @@ return array(
 					'fields' => array(
 						array( 'id' => 'title', 'type' => 'text', 'label' => __( 'Title', 'smartshala' ), 'default' => 'Contact' ),
 						array( 'id' => 'phone', 'type' => 'text', 'label' => __( 'Phone', 'smartshala' ), 'default' => '+91 98765 43210' ),
-						array( 'id' => 'email', 'type' => 'text', 'label' => __( 'Email', 'smartshala' ), 'default' => 'hello@letssmartshala.com' ),
+						array( 'id' => 'email', 'type' => 'text', 'label' => __( 'Email', 'smartshala' ), 'default' => 'support@letssmartshala.com' ),
 						array( 'id' => 'website', 'type' => 'text', 'label' => __( 'Website', 'smartshala' ), 'default' => 'www.letssmartshala.com' ),
-						array( 'id' => 'company', 'type' => 'text', 'label' => __( 'Legal name', 'smartshala' ), 'default' => 'SmartShala Technologies Pvt. Ltd.' ),
+						array( 'id' => 'company', 'type' => 'text', 'label' => __( 'Legal name', 'smartshala' ), 'default' => 'Hybrid Monks LLP' ),
 						array( 'id' => 'address', 'type' => 'text', 'label' => __( 'Address', 'smartshala' ), 'default' => 'Ahmedabad, Gujarat, India – 380015' ),
 					),
 				),
@@ -965,7 +961,7 @@ return array(
 					'id'      => 'copyright',
 					'type'    => 'text',
 					'label'   => __( 'Copyright line', 'smartshala' ),
-					'default' => '© 2026 SmartShala. All Rights Reserved. Built for Modern Schools.',
+					'default' => '@2026 Smart Shala (Product by Hybrid Monks LLP), All Rights Reserved',
 				),
 
 				array(

@@ -25,21 +25,9 @@ const DROPDOWNS = {
     { label: 'Fee Management', url: '/features' },
     { label: 'Examinations', url: '/features' },
   ],
-  Modules: [
-    { label: 'All modules', url: '/modules' },
-    { label: 'Academics', url: '/modules' },
-    { label: 'Finance', url: '/modules' },
-    { label: 'People', url: '/modules' },
-    { label: 'Operations', url: '/modules' },
-  ],
   Resources: [
+    { label: 'Blog', url: '/blog' },
     { label: 'FAQs', url: '/faqs' },
-    { label: 'Help Center', url: '/help' },
-  ],
-  Company: [
-    { label: 'About', url: '/about' },
-    { label: 'Contact', url: '/contact' },
-    { label: 'Book a Demo', url: '/book-demo' },
   ],
 }
 
@@ -120,8 +108,12 @@ export default function Navbar({ content }) {
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
 
-  const menu = content?.menu ?? []
-  const login = content?.login
+  const rawMenu = content?.menu ?? []
+  const menu = rawMenu
+    .filter((item) => item.label !== 'Modules' && item.label !== 'Pricing')
+    .map((item) => (item.label === 'Company' ? { ...item, has_dropdown: false } : item))
+  // Client requested removing login button
+  const login = null
   const cta = content?.cta
 
   // The header sits flat on the hero until the page moves.

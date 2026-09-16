@@ -92,13 +92,13 @@ export default function Testimonials({ content }) {
 
                 <div className="mt-7 flex items-center gap-3 border-t border-hairline/70 pt-5">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-tint text-brand">
-                    <Icon name="school" size={19} />
+                    <Icon name="map-pin" size={18} />
                   </span>
                   <span className="min-w-0 leading-tight">
-                    <span className="block text-[14.5px] font-semibold text-ink">
-                      {item.school}
+                    <span className="block text-[14px] font-semibold text-ink">
+                      {item.location || 'Verified School'}
                     </span>
-                    <span className="block text-[12.5px] text-muted">{item.location}</span>
+                    <span className="mt-0.5 block text-[12px] text-muted">Verified School Leader</span>
                   </span>
                 </div>
               </li>

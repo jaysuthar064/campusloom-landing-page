@@ -9,6 +9,7 @@ import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import FaqsPage from './pages/FaqsPage'
 import HelpPage from './pages/HelpPage'
+import BlogPage from './pages/BlogPage'
 import LegalPage from './pages/LegalPage'
 import NotFoundPage from './pages/NotFoundPage'
 import SmoothScroll from './components/ui/SmoothScroll'
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/book-demo" element={<BookDemoPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/help" element={<HelpPage />} />
         <Route path="/privacy" element={<LegalPage page="privacy" />} />
