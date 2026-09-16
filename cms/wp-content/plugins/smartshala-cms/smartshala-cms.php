@@ -35,6 +35,7 @@ require_once SMARTSHALA_DIR . 'includes/class-smartshala-store.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-admin.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-rest.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-leads.php';
+require_once SMARTSHALA_DIR . 'includes/class-smartshala-freshsales.php';
 require_once SMARTSHALA_DIR . 'includes/class-smartshala-settings.php';
 
 /**

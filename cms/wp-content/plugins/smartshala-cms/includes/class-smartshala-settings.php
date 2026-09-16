@@ -96,6 +96,7 @@ class SmartShala_Settings {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ), 20 );
 		add_action( 'admin_post_smartshala_save_settings', array( __CLASS__, 'handle_save' ) );
 		add_action( 'admin_post_smartshala_save_emails', array( __CLASS__, 'handle_save_emails' ) );
+		add_action( 'admin_post_smartshala_save_freshsales', array( __CLASS__, 'handle_save_freshsales' ) );
 	}
 
 	public static function menu() {
@@ -342,6 +343,82 @@ class SmartShala_Settings {
 					?>
 				</p>
 			</div>
+
+			<div class="smartshala-panel" style="margin-top:18px;max-width:820px;">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="smartshala_save_freshsales">
+					<?php wp_nonce_field( 'smartshala_save_freshsales' ); ?>
+
+					<header class="smartshala-panel__head">
+						<h2><?php esc_html_e( 'Freshsales CRM', 'smartshala' ); ?></h2>
+						<p class="description">
+							<?php esc_html_e( 'Connect lead submissions to Freshsales so every enquiry appears in your CRM automatically. Leads are always saved in WordPress first — if Freshsales is unreachable, nothing is lost.', 'smartshala' ); ?>
+						</p>
+					</header>
+
+					<div class="smartshala-field">
+						<label class="smartshala-label" for="smartshala-fs-domain">
+							<?php esc_html_e( 'Freshworks domain', 'smartshala' ); ?>
+						</label>
+						<input
+							type="text"
+							id="smartshala-fs-domain"
+							name="freshsales_domain"
+							class="large-text code"
+							value="<?php echo esc_attr( SmartShala_Freshsales::domain() ); ?>"
+							placeholder="hybridmonksllp or hybridmonksllp.myfreshworks.com"
+							autocomplete="off"
+						>
+						<p class="description">
+							<?php esc_html_e( 'The subdomain from your CRM URL, or paste the full URL. For https://hybridmonksllp.myfreshworks.com/crm/sales, enter only "hybridmonksllp" or "hybridmonksllp.myfreshworks.com".', 'smartshala' ); ?>
+						</p>
+					</div>
+
+					<div class="smartshala-field">
+						<label class="smartshala-label" for="smartshala-fs-key">
+							<?php esc_html_e( 'API key', 'smartshala' ); ?>
+						</label>
+						<input
+							type="password"
+							id="smartshala-fs-key"
+							name="freshsales_api_key"
+							class="large-text code"
+							value="<?php echo esc_attr( SmartShala_Freshsales::api_key() ); ?>"
+							placeholder="<?php esc_attr_e( 'Paste your Freshsales API key here', 'smartshala' ); ?>"
+							autocomplete="off"
+						>
+						<p class="description">
+							<?php esc_html_e( 'Find this in Freshsales → Settings → API Settings → Your API Key.', 'smartshala' ); ?>
+						</p>
+					</div>
+
+					<div class="smartshala-field">
+						<?php if ( SmartShala_Freshsales::is_configured() ) : ?>
+							<p style="margin:0;padding:12px 14px;border-radius:8px;background:#edfaef;border:1px solid #a7dbb1;">
+								<strong><?php esc_html_e( 'Connected.', 'smartshala' ); ?></strong><br>
+								<?php
+								printf(
+									/* translators: %s: Freshsales domain */
+									esc_html__( 'New leads will be pushed to %s.freshsales.io as contacts.', 'smartshala' ),
+									esc_html( SmartShala_Freshsales::domain() )
+								);
+								?>
+							</p>
+						<?php else : ?>
+							<p style="margin:0;padding:12px 14px;border-radius:8px;background:#fff8e5;border:1px solid #f0d68a;">
+								<strong><?php esc_html_e( 'Not connected.', 'smartshala' ); ?></strong><br>
+								<?php esc_html_e( 'Enter your Freshsales domain and API key above to start syncing leads to your CRM.', 'smartshala' ); ?>
+							</p>
+						<?php endif; ?>
+					</div>
+
+					<p class="smartshala-actions">
+						<button type="submit" class="button button-primary button-hero">
+							<?php esc_html_e( 'Save Freshsales settings', 'smartshala' ); ?>
+						</button>
+					</p>
+				</form>
+			</div>
 		</div>
 		<?php
 	}
@@ -392,6 +469,37 @@ class SmartShala_Settings {
 
 		$from_name = sanitize_text_field( wp_unslash( $_POST['mail_from_name'] ?? '' ) );
 		update_option( self::FROM_NAME, $from_name, false );
+
+		wp_safe_redirect( add_query_arg(
+			array(
+				'page'    => self::SLUG,
+				'updated' => 1,
+			),
+			admin_url( 'admin.php' )
+		) );
+		exit;
+	}
+
+	public static function handle_save_freshsales() {
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_die( esc_html__( 'You are not allowed to change these settings.', 'smartshala' ) );
+		}
+
+		check_admin_referer( 'smartshala_save_freshsales' );
+
+		$domain = sanitize_text_field( wp_unslash( $_POST['freshsales_domain'] ?? '' ) );
+		// Strip any accidental full URL pasting.
+		$domain = preg_replace( '~^https?://~i', '', $domain );
+		$domain = trim( $domain, ' /' );
+		// Accept either a bare subdomain or a full *.myfreshworks.com / *.freshsales.io host.
+		$domain = preg_replace( '~\.myfreshworks\.com/.*$~i', '.myfreshworks.com', $domain );
+		$domain = preg_replace( '~\.freshsales\.io/.*$~i', '.freshsales.io', $domain );
+		$domain = trim( $domain, ' /' );
+
+		update_option( SmartShala_Freshsales::OPTION_DOMAIN, $domain, false );
+
+		$api_key = sanitize_text_field( wp_unslash( $_POST['freshsales_api_key'] ?? '' ) );
+		update_option( SmartShala_Freshsales::OPTION_API_KEY, $api_key, false );
 
 		wp_safe_redirect( add_query_arg(
 			array(

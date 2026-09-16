@@ -163,6 +163,15 @@ class SmartShala_Leads {
 		 */
 		update_post_meta( $post_id, '_ss_mail_sent', $sent ? '1' : '0' );
 
+		/*
+		 * Push the lead to Freshsales CRM if configured.
+		 *
+		 * This runs after the lead is safely saved and the email is sent, so
+		 * a CRM outage never blocks or loses the submission. The sync result
+		 * is recorded as post meta for the Demo Requests list.
+		 */
+		SmartShala_Freshsales::push( $post_id, $data );
+
 		return rest_ensure_response( array( 'ok' => true, 'id' => $post_id ) );
 	}
 
@@ -176,6 +185,7 @@ class SmartShala_Leads {
 			'ss_size'  => __( 'Students', 'smartshala' ),
 			'ss_src'   => __( 'From', 'smartshala' ),
 			'ss_mail'  => __( 'Notified', 'smartshala' ),
+			'ss_crm'   => __( 'CRM', 'smartshala' ),
 			'date'     => __( 'Received', 'smartshala' ),
 		);
 	}
@@ -188,6 +198,24 @@ class SmartShala_Leads {
 				echo '<span style="color:#1a7f37;">' . esc_html__( 'sent', 'smartshala' ) . '</span>';
 			} elseif ( '0' === $sent ) {
 				echo '<strong style="color:#b32d2e;">' . esc_html__( 'FAILED', 'smartshala' ) . '</strong>';
+			} else {
+				echo '<span style="color:#8c8f94;">&mdash;</span>';
+			}
+			return;
+		}
+
+		if ( 'ss_crm' === $column ) {
+			$synced = get_post_meta( $post_id, '_ss_crm_synced', true );
+
+			if ( '1' === $synced ) {
+				$contact_id = get_post_meta( $post_id, '_ss_crm_contact_id', true );
+				$label      = $contact_id ? sprintf( '#%s', $contact_id ) : esc_html__( 'synced', 'smartshala' );
+				echo '<span style="color:#1a7f37;">' . esc_html( $label ) . '</span>';
+			} elseif ( '0' === $synced ) {
+				$error = get_post_meta( $post_id, '_ss_crm_error', true );
+				echo '<strong style="color:#b32d2e;" title="' . esc_attr( $error ) . '">' . esc_html__( 'FAILED', 'smartshala' ) . '</strong>';
+			} elseif ( 'not_configured' === $synced ) {
+				echo '<span style="color:#8c8f94;">' . esc_html__( 'n/a', 'smartshala' ) . '</span>';
 			} else {
 				echo '<span style="color:#8c8f94;">&mdash;</span>';
 			}
