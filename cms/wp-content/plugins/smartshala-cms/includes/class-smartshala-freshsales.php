@@ -101,6 +101,14 @@ class SmartShala_Freshsales {
 			$contact['custom_field'] = array( 'cf_students' => $students );
 		}
 
+		// Tags
+		$source_tag = ( 'Contact' === ( $data['source'] ?? '' ) ) ? 'Contact Form' : 'Demo Request';
+		
+		// In Freshworks CRM, tags are usually passed as an array inside the contact.
+		// However, in some older/newer tenant versions, it requires a separate call.
+		// Passing it here is the standard way. If it fails, our general error handling picks it up.
+		$contact['tags'] = array( $source_tag );
+
 		$response = wp_remote_post(
 			self::api_url() . '/contacts',
 			array(
@@ -129,11 +137,9 @@ class SmartShala_Freshsales {
 			// Store the Freshsales contact ID for reference.
 			if ( ! empty( $body['contact']['id'] ) ) {
 				update_post_meta( $post_id, '_ss_crm_contact_id', (string) $body['contact']['id'] );
-			}
-
-			// If there's a message/note, add it as a note on the contact.
-			$message = $data['message'] ?? '';
-			if ( '' !== $message && ! empty( $body['contact']['id'] ) ) {
+				
+				// Always add a note with the formatted summary of what the lead submitted
+				$message = $data['message'] ?? '';
 				self::add_note( $body['contact']['id'], $message, $data );
 			}
 		} else {
@@ -155,19 +161,43 @@ class SmartShala_Freshsales {
 	/**
 	 * Add a note to a Freshsales contact.
 	 *
+	 * Includes a cleanly formatted summary of all submitted fields so the
+	 * sales team can see everything at a glance on the contact timeline.
+	 *
 	 * @param int|string $contact_id Freshsales contact ID.
-	 * @param string     $message    The note body.
+	 * @param string     $message    The user's message.
 	 * @param array      $data       Original lead data for context.
 	 */
 	private static function add_note( $contact_id, $message, $data ) {
-		$source  = $data['source'] ?? 'Website';
-		$subject = $data['subject'] ?? '';
+		$source = $data['source'] ?? 'Website';
+		
+		$description  = "New {$source} submission details:\n";
+		$description .= "--------------------------------------\n";
 
-		$description = '';
-		if ( '' !== $subject ) {
-			$description .= "Subject: {$subject}\n\n";
+		// Print only the fields that were actually filled in.
+		$fields = array(
+			'name'     => 'Name',
+			'school'   => 'School / Organisation',
+			'role'     => 'Role',
+			'email'    => 'Email',
+			'phone'    => 'Phone',
+			'city'     => 'City',
+			'students' => 'Number of students',
+			'subject'  => 'Subject',
+		);
+
+		foreach ( $fields as $key => $label ) {
+			$val = trim( $data[ $key ] ?? '' );
+			if ( '' !== $val ) {
+				$description .= sprintf( "%s: %s\n", $label, $val );
+			}
 		}
-		$description .= $message;
+
+		$description .= "--------------------------------------\n";
+
+		if ( '' !== trim( $message ) ) {
+			$description .= "Message:\n" . trim( $message ) . "\n";
+		}
 
 		wp_remote_post(
 			self::api_url() . '/notes',
